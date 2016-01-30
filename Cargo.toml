@@ -4,5 +4,8 @@ version = "0.1.0"
 authors = ["Justin LeFebvre <jstnlefebvre@gmail.com>"]
 
 [dependencies]
+conrod = "0.31.1"
+find_folder = "0.3.0"
+fps_counter = "0.2.0"
 piston = "0.17.0"
 piston_window = "0.34.0"
