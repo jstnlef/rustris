@@ -11,6 +11,16 @@ const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 const WINDOW_WIDTH: u32 = 640;
 const WINDOW_HEIGHT: u32 = 480;
 
+// Constants for the various widgets and canvases
+widget_ids! {
+    // Canvas IDs
+    MASTER,
+    MENU,
+    PLAY_AREA,
+    // Widget IDs
+    FPS_COUNTER
+}
+
 type Ui = conrod::Ui<Glyphs>;
 
 fn main() {
@@ -22,10 +32,11 @@ fn main() {
     let window: PistonWindow =
         WindowSettings::new(window_title, [WINDOW_WIDTH, WINDOW_HEIGHT])
         .exit_on_esc(true)
+        .vsync(true)
         .build()
         .unwrap();
 
-    // UI layer
+    // UI Struct
     let mut ui = create_ui(&window);
 
     // Game Loop
@@ -50,18 +61,16 @@ fn create_ui(window: &PistonWindow) -> Ui {
 fn set_ui(ui: &mut Ui, fps_count: usize) {
     use conrod::{Canvas, color, Colorable, Positionable, Scalar, Sizeable, Text};
 
-    widget_ids!{
-        MASTER,
-        FPS_COUNTER
-    };
-
-    Canvas::new().set(MASTER, ui);
+    Canvas::new().flow_right(&[
+        (MENU, Canvas::new().color(color::BLUE).pad(50.0)),
+        (PLAY_AREA, Canvas::new().color(color::BLACK).pad(50.0))
+    ]).set(MASTER, ui);
 
     const PAD: Scalar = 10.0;
 
     let fps_text: &str = &("FPS: ".to_string() + &fps_count.to_string());
     Text::new(fps_text)
-        .color(color::LIGHT_BLUE)
+        .color(color::BLACK)
         .font_size(14)
         .padded_w_of(MASTER, PAD)
         .mid_top_with_margin_on(MASTER, PAD)
