@@ -7,6 +7,8 @@ use conrod::{Theme, Widget};
 use fps_counter::{FPSCounter};
 use piston_window::*;
 
+mod tetromino;
+
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 const WINDOW_WIDTH: u32 = 640;
 const WINDOW_HEIGHT: u32 = 480;
