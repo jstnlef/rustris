@@ -8,6 +8,7 @@ use fps_counter::{FPSCounter};
 use piston_window::*;
 
 mod tetromino;
+mod game;
 
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 const WINDOW_WIDTH: u32 = 640;
