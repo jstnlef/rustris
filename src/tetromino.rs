@@ -1,5 +1,62 @@
 use conrod::{color, Color};
 
+pub const I: Tetromino = Tetromino {
+    configurations: [
+        [Block{x:0, y:2, color: CYAN}, Block{x:1, y:2, color: CYAN}, Block{x:2, y:2, color: CYAN}, Block{x:3, y:2, color: CYAN}],
+        [Block{x:2, y:0, color: CYAN}, Block{x:2, y:1, color: CYAN}, Block{x:2, y:2, color: CYAN}, Block{x:2, y:3, color: CYAN}],
+        [Block{x:0, y:1, color: CYAN}, Block{x:1, y:1, color: CYAN}, Block{x:2, y:1, color: CYAN}, Block{x:3, y:1, color: CYAN}],
+        [Block{x:1, y:0, color: CYAN}, Block{x:1, y:1, color: CYAN}, Block{x:1, y:2, color: CYAN}, Block{x:1, y:3, color: CYAN}]
+    ]
+};
+pub const J: Tetromino = Tetromino {
+    configurations: [
+        [Block{x:1, y:3, color: BLUE}, Block{x:1, y:2, color: BLUE}, Block{x:1, y:1, color: BLUE}, Block{x:0, y:1, color: BLUE}],
+        [Block{x:0, y:3, color: BLUE}, Block{x:0, y:2, color: BLUE}, Block{x:1, y:2, color: BLUE}, Block{x:2, y:2, color: BLUE}],
+        [Block{x:1, y:3, color: BLUE}, Block{x:1, y:2, color: BLUE}, Block{x:1, y:1, color: BLUE}, Block{x:2, y:3, color: BLUE}],
+        [Block{x:0, y:2, color: BLUE}, Block{x:1, y:2, color: BLUE}, Block{x:2, y:2, color: BLUE}, Block{x:2, y:1, color: BLUE}]
+    ]
+};
+pub const L: Tetromino = Tetromino {
+    configurations: [
+        [Block{x:1, y:3, color: ORANGE}, Block{x:1, y:2, color: ORANGE}, Block{x:1, y:1, color: ORANGE}, Block{x:2, y:1, color: ORANGE}],
+        [Block{x:0, y:1, color: ORANGE}, Block{x:0, y:2, color: ORANGE}, Block{x:1, y:2, color: ORANGE}, Block{x:2, y:2, color: ORANGE}],
+        [Block{x:0, y:3, color: ORANGE}, Block{x:1, y:3, color: ORANGE}, Block{x:1, y:2, color: ORANGE}, Block{x:1, y:1, color: ORANGE}],
+        [Block{x:0, y:2, color: ORANGE}, Block{x:1, y:2, color: ORANGE}, Block{x:2, y:2, color: ORANGE}, Block{x:2, y:3, color: ORANGE}]
+    ]
+};
+pub const O: Tetromino = Tetromino {
+    configurations: [
+        [Block{x:0, y:3, color: YELLOW}, Block{x:0, y:2, color: YELLOW}, Block{x:1, y:3, color: YELLOW}, Block{x:1, y:2, color: YELLOW}],
+        [Block{x:0, y:3, color: YELLOW}, Block{x:0, y:2, color: YELLOW}, Block{x:1, y:3, color: YELLOW}, Block{x:1, y:2, color: YELLOW}],
+        [Block{x:0, y:3, color: YELLOW}, Block{x:0, y:2, color: YELLOW}, Block{x:1, y:3, color: YELLOW}, Block{x:1, y:2, color: YELLOW}],
+        [Block{x:0, y:3, color: YELLOW}, Block{x:0, y:2, color: YELLOW}, Block{x:1, y:3, color: YELLOW}, Block{x:1, y:2, color: YELLOW}]
+    ]
+};
+pub const S: Tetromino = Tetromino {
+    configurations: [
+        [Block{x:0, y:1, color: LIME}, Block{x:1, y:1, color: LIME}, Block{x:1, y:2, color: LIME}, Block{x:2, y:2, color: LIME}],
+        [Block{x:0, y:3, color: LIME}, Block{x:0, y:2, color: LIME}, Block{x:1, y:2, color: LIME}, Block{x:1, y:1, color: LIME}],
+        [Block{x:0, y:2, color: LIME}, Block{x:1, y:2, color: LIME}, Block{x:1, y:3, color: LIME}, Block{x:2, y:3, color: LIME}],
+        [Block{x:1, y:3, color: LIME}, Block{x:1, y:2, color: LIME}, Block{x:2, y:2, color: LIME}, Block{x:2, y:1, color: LIME}]
+    ]
+};
+pub const T: Tetromino = Tetromino {
+    configurations: [
+        [Block{x:0, y:2, color: PURPLE}, Block{x:1, y:2, color: PURPLE}, Block{x:1, y:1, color: PURPLE}, Block{x:2, y:2, color: PURPLE}],
+        [Block{x:0, y:2, color: PURPLE}, Block{x:1, y:3, color: PURPLE}, Block{x:1, y:2, color: PURPLE}, Block{x:1, y:1, color: PURPLE}],
+        [Block{x:0, y:2, color: PURPLE}, Block{x:1, y:3, color: PURPLE}, Block{x:1, y:2, color: PURPLE}, Block{x:2, y:2, color: PURPLE}],
+        [Block{x:1, y:3, color: PURPLE}, Block{x:1, y:2, color: PURPLE}, Block{x:1, y:1, color: PURPLE}, Block{x:2, y:2, color: PURPLE}]
+    ]
+};
+pub const Z: Tetromino = Tetromino {
+    configurations: [
+        [Block{x:0, y:2, color: RED}, Block{x:1, y:2, color: RED}, Block{x:1, y:1, color: RED}, Block{x:2, y:1, color: RED}],
+        [Block{x:0, y:2, color: RED}, Block{x:0, y:1, color: RED}, Block{x:1, y:2, color: RED}, Block{x:1, y:3, color: RED}],
+        [Block{x:0, y:3, color: RED}, Block{x:1, y:3, color: RED}, Block{x:1, y:2, color: RED}, Block{x:2, y:2, color: RED}],
+        [Block{x:1, y:1, color: RED}, Block{x:1, y:2, color: RED}, Block{x:2, y:2, color: RED}, Block{x:2, y:3, color: RED}]
+    ]
+};
+
 // Tetromino colors
 const CYAN: Color = Color::Rgba(0x00 as f32, 0xFF as f32, 0xff as f32, 1.0);
 const BLUE: Color = color::BLUE;
@@ -9,51 +66,53 @@ const LIME: Color = Color::Rgba(0x80 as f32, 0xFF as f32, 0x00 as f32, 1.0);
 const PURPLE: Color = color::PURPLE;
 const RED: Color = color::RED;
 
-struct Position {
+pub struct Piece {
     x: u32,
-    y: u32
+    y: u32,
+    ptype: Tetromino,
+    rotation: Rotation
+}
+impl Piece {
+    fn get_blocks(&self) -> &Configuration {
+        self.ptype.get_configuration(&self.rotation)
+    }
+    fn rotate(&mut self) {
+        let new_rotation = match self.rotation {
+            Rotation::R0 => Rotation::R1,
+            Rotation::R1 => Rotation::R2,
+            Rotation::R2 => Rotation::R3,
+            Rotation::R3 => Rotation::R0
+        };
+	    self.rotation = new_rotation;
+    }
 }
 
-/*
-Orientation is defined as a 16 bit unsigned integer which maps to a binary representation of the
-tetromino on a 4 x 4 grid. e.g. Technique can be found here:
-http://codeincomplete.com/posts/2011/10/10/javascript_tetris/
-    0 0 0 0  -> 0
-    1 1 1 1  -> F
-    0 0 0 0  -> 0
-    0 0 0 0  -> 0
-    -------
-    0 F 0 0
-*/
-type Orientation = u16;
+enum Rotation {
+    R0, R1, R2, R3
+}
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Debug)]
 pub struct Tetromino {
-    orientations: [Orientation; 4],
-    color: Color
+    configurations: [Configuration; 4]
 }
 impl Tetromino {
-    fn get_orientation(&self, index: usize) -> Orientation {
-        self.orientations[index]
+    fn get_configuration(&self, rotation: &Rotation) -> &Configuration {
+        let index = match *rotation {
+            Rotation::R0 => 0,
+            Rotation::R1 => 1,
+            Rotation::R2 => 2,
+            Rotation::R3 => 3
+        };
+        &self.configurations[index]
     }
 }
 
-pub const I: Tetromino = Tetromino {orientations: [0x0F00, 0x2222, 0x00F0, 0x4444], color: CYAN};
-pub const J: Tetromino = Tetromino {orientations: [0x44C0, 0x8E00, 0x6440, 0x0E20], color: BLUE};
-pub const L: Tetromino = Tetromino {orientations: [0x4460, 0x0E80, 0xC440, 0x2E00], color: ORANGE};
-pub const O: Tetromino = Tetromino {orientations: [0xCC00, 0xCC00, 0xCC00, 0xCC00], color: YELLOW};
-pub const S: Tetromino = Tetromino {orientations: [0x06C0, 0x8C40, 0x6C00, 0x4620], color: LIME};
-pub const T: Tetromino = Tetromino {orientations: [0x0E40, 0x4C40, 0x4E00, 0x4640], color: PURPLE};
-pub const Z: Tetromino = Tetromino {orientations: [0x0C60, 0x4C80, 0xC600, 0x2640], color: RED};
+type Configuration = [Block; 4];
 
-#[cfg(test)]
-mod tetromino_tests {
-    use super::*;
-
-    #[test]
-    fn test_get_orientation() {
-        // TODO: Flesh out these tests
-        assert_eq!(J.get_orientation(3), 0x0E20);
-        assert_eq!(L.get_orientation(2), 0xC440);
-    }
+// Store the x and y position relative to local coordinates
+#[derive(Debug)]
+pub struct Block {
+    x: u8,
+    y: u8,
+    color: Color
 }
