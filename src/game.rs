@@ -23,11 +23,11 @@ impl CellState {
                     0.0, 0.0, BLOCK_SIZE - (2.0 * GRID_LINE_WIDTH)
                 );
                 let transform = context.transform
-                    // Move the origin of the transform based on where the grid starts
+                    // Translate the origin of the transform based on where the grid starts
                     .trans(GRID_X_OFFSET, GRID_Y_OFFSET)
-                    // Move the square into the first grid cell (off of the bounding box)
+                    // Translate the square into the first grid cell (off of the bounding box)
                     .trans(GRID_LINE_WIDTH, GRID_LINE_WIDTH)
-                    // Move the square into the proper grid cell based on x and y
+                    // Translate the square into the proper grid cell based on the grid x and y position
                     .trans((x as f64)*BLOCK_SIZE, (y as f64)*BLOCK_SIZE);
                 rectangle(color, square, transform, graphics);
             },
