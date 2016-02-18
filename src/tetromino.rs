@@ -1,4 +1,9 @@
-use conrod::{color, Color};
+use piston_window::{Context, G2d, Transformed, rectangle};
+use piston_window::types::{Color, Matrix2d};
+
+use colors::*;
+use game::Renderer;
+use settings::*;
 
 // TODO: look into having a make-block! macro for when this inevitably needs to change
 pub const I: Tetromino = Tetromino {
@@ -58,23 +63,19 @@ pub const Z: Tetromino = Tetromino {
     ]
 };
 
-// Tetromino colors
-pub const CYAN: Color = Color::Rgba(0x00 as f32, 0xFF as f32, 0xff as f32, 1.0);
-pub const BLUE: Color = color::BLUE;
-pub const ORANGE: Color = color::ORANGE;
-pub const YELLOW: Color = color::YELLOW;
-pub const LIME: Color = Color::Rgba(0x80 as f32, 0xFF as f32, 0x00 as f32, 1.0);
-pub const PURPLE: Color = color::PURPLE;
-pub const RED: Color = color::RED;
-
 pub struct Piece {
     // TODO: Replace with position
-    x: u8,
-    y: u8,
+    x: u32,
+    y: u32,
     ptype: Tetromino,
     rotation: Rotation
 }
 impl Piece {
+    pub fn create(ptype: Tetromino) -> Piece {
+        let position = Position {x: WIDTH_IN_BLOCKS / 2, y: 0};
+        Piece::new(position, ptype, Rotation::R0)
+    }
+
     fn new(position: Position, ptype: Tetromino, rotation: Rotation) -> Piece {
         Piece {
             x: position.x,
@@ -83,9 +84,11 @@ impl Piece {
             rotation: rotation
         }
     }
+
     fn get_blocks(&self) -> &Configuration {
         self.ptype.get_configuration(&self.rotation)
     }
+
     fn rotate(&mut self) {
         let new_rotation = match self.rotation {
             Rotation::R0 => Rotation::R1,
@@ -93,7 +96,7 @@ impl Piece {
             Rotation::R2 => Rotation::R3,
             Rotation::R3 => Rotation::R0
         };
-	    self.rotation = new_rotation;
+        self.rotation = new_rotation;
     }
 }
 
@@ -123,15 +126,15 @@ type Configuration = [Block; 4];
 // Store the x and y position relative to local coordinates
 #[derive(Debug, PartialEq)]
 pub struct Block {
-    x: u8,
-    y: u8,
+    x: u32,
+    y: u32,
     color: Color
 }
 
 #[derive(Debug, PartialEq)]
 pub struct Position {
-    x: u8,
-    y: u8
+    x: u32,
+    y: u32
 }
 
 #[cfg(test)]
