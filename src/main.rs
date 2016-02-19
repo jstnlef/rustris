@@ -1,12 +1,13 @@
 #[macro_use] extern crate conrod;
 extern crate find_folder;
-extern crate fps_counter;
+// extern crate fps_counter;
 extern crate piston_window;
 
 use conrod::{Theme, Widget};
 // use fps_counter::{FPSCounter};
 use piston_window::*;
 
+mod board;
 mod colors;
 mod game;
 use game::{Rustris, TheGame, Game};
