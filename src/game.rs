@@ -38,7 +38,7 @@ impl Rustris {
     pub fn new() -> Rustris {
         Rustris {
             board: Board::new(),
-            current_piece: Piece::create(I)
+            current_piece: Piece::create(J)
         }
     }
     pub fn reset(&mut self) {
@@ -47,7 +47,29 @@ impl Rustris {
 }
 impl Game for Rustris {
     fn on_input(&mut self, input: Input) {
+        match input {
+            Input::Press(key) => {
+                match key {
+                    Button::Keyboard(Key::Up) => {
+                        self.current_piece.rotate();
+                    }
+                    Button::Keyboard(Key::Down) => {
 
+                    }
+                    Button::Keyboard(Key::Left) => {
+                        self.current_piece.move_left()
+                    }
+                    Button::Keyboard(Key::Right) => {
+                        self.current_piece.move_right();
+                    }
+                    Button::Keyboard(Key::Space) => {
+
+                    }
+                    _ => {}
+                }
+            }
+            _ => {}
+        }
     }
 
     fn on_update(&mut self, update_args: UpdateArgs) {
