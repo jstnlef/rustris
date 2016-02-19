@@ -1,6 +1,8 @@
 use piston_window::*;
 use piston_window::grid::Grid;
+use piston_window::types::Color;
 
+use board::Board;
 use colors::GREY;
 use tetromino::*;
 use settings::*;
@@ -8,32 +10,6 @@ use settings::*;
 enum GameState {
     Playing,
     Paused
-}
-
-#[derive(Clone, Copy)]
-enum CellState {
-    Empty,
-    Block(types::Color)
-}
-impl CellState {
-    fn draw(&self, x: u32, y: u32, context: Context, graphics: &mut G2d) {
-        match *self {
-            CellState::Block(color) => {
-                let square = rectangle::square(
-                    0.0, 0.0, BLOCK_SIZE - (2.0 * GRID_LINE_WIDTH)
-                );
-                let transform = context.transform
-                    // Translate the origin of the transform based on where the grid starts
-                    .trans(GRID_X_OFFSET, GRID_Y_OFFSET)
-                    // Translate the square into the first grid cell (off of the bounding box)
-                    .trans(GRID_LINE_WIDTH, GRID_LINE_WIDTH)
-                    // Translate the square into the proper grid cell based on the grid x and y position
-                    .trans((x as f64)*BLOCK_SIZE, (y as f64)*BLOCK_SIZE);
-                rectangle(color, square, transform, graphics);
-            },
-            CellState::Empty => {}
-        }
-    }
 }
 
 pub trait Game {
@@ -46,41 +22,8 @@ pub trait Renderer {
     fn render(&self, context: Context, graphics: &mut G2d);
 }
 
-// TODO: Move this to its own module
-pub struct Board {
-    grid: [[CellState; HEIGHT_IN_BLOCKS as usize]; WIDTH_IN_BLOCKS as usize]
-}
-impl Board {
-    pub fn new() -> Board {
-        // TODO: Get rid of this the hacky CellState stuff I put in
-        // for testing
-        use colors::*;
-        let mut board = Board {
-            grid: [[CellState::Empty; HEIGHT_IN_BLOCKS as usize]; WIDTH_IN_BLOCKS as usize]
-        };
-        board.grid[8][1] = CellState::Block(RED);
-        board.grid[3][4] = CellState::Block(CYAN);
-        board
-    }
-    fn get_cell_state(&self, x: u32, y: u32) -> CellState {
-        self.grid[x as usize][y as usize]
-    }
-}
-impl Renderer for Board {
-    fn render(&self, context: Context, graphics: &mut G2d) {
-        let grid = Grid {
-            cols: WIDTH_IN_BLOCKS,
-            rows: HEIGHT_IN_BLOCKS,
-            units: BLOCK_SIZE
-        };
-        let line = Line::new(GREY, GRID_LINE_WIDTH);
-        let transform = context.transform.trans(GRID_X_OFFSET, GRID_Y_OFFSET);
-        grid.draw(&line, &Default::default(), transform, graphics);
-        for (x, y) in grid.cells() {
-            // TODO: Figure out why this only goes up to 9, 9...
-            self.get_cell_state(x, y).draw(x, y, context, graphics);
-        }
-    }
+pub trait GridRenderer {
+    fn render(&self, x: u32, y: u32, context: Context, graphics: &mut G2d);
 }
 
 pub struct Rustris {
@@ -95,7 +38,7 @@ impl Rustris {
     pub fn new() -> Rustris {
         Rustris {
             board: Board::new(),
-            current_piece: Piece::create(J)
+            current_piece: Piece::create(I)
         }
     }
     pub fn reset(&mut self) {
@@ -106,15 +49,32 @@ impl Game for Rustris {
     fn on_input(&mut self, input: Input) {
 
     }
+
     fn on_update(&mut self, update_args: UpdateArgs) {
 
     }
+
     fn on_render(&mut self, render_args: RenderArgs, e: PistonWindow) {
         e.draw_2d(|c, g| {
             clear([0.0, 0.0, 0.0, 1.0], g);
             self.board.render(c, g);
+            self.current_piece.render(c, g);
         });
     }
+}
+
+pub fn render_square_in_grid(x: u32, y: u32, color: Color, context: Context, graphics: &mut G2d) {
+    let square = rectangle::square(
+        0.0, 0.0, BLOCK_SIZE - (2.0 * GRID_LINE_WIDTH)
+    );
+    let transform = context.transform
+        // Translate the origin of the transform based on where the grid starts
+        .trans(GRID_X_OFFSET, GRID_Y_OFFSET)
+        // Translate the square into the first grid cell (off of the bounding box)
+        .trans(GRID_LINE_WIDTH, GRID_LINE_WIDTH)
+        // Translate the square into the proper grid cell based on the grid x and y position
+        .trans((x as f64)*BLOCK_SIZE, (y as f64)*BLOCK_SIZE);
+    rectangle(color, square, transform, graphics);
 }
 
 
