@@ -97,6 +97,19 @@ impl Piece {
     pub fn rotate(&mut self) {
         self.rotation = (self.rotation + 1) % self.ptype.configurations.len();
     }
+
+    pub fn move_left(&mut self) {
+        // TODO: Replace with in bounds check
+        if self.x > 0 {
+            self.x -= 1;
+        }
+    }
+
+    pub fn move_right(&mut self) {
+        if self.x < WIDTH_IN_BLOCKS - 1 {
+            self.x += 1;
+        }
+    }
 }
 impl Renderer for Piece {
     fn render(&self, context: Context, graphics: &mut G2d) {
