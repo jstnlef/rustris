@@ -57,10 +57,10 @@ impl Game for Rustris {
 
                     }
                     Button::Keyboard(Key::Left) => {
-                        self.current_piece.move_left()
+                        self.current_piece.move_piece(Direction::Left);
                     }
                     Button::Keyboard(Key::Right) => {
-                        self.current_piece.move_right();
+                        self.current_piece.move_piece(Direction::Right);
                     }
                     Button::Keyboard(Key::Space) => {
 
