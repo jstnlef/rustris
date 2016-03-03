@@ -17,4 +17,4 @@ pub const PURPLE: Color = make_color!(0x75, 0x50, 0x7B);
 pub const RED: Color = make_color!(0xCC, 0x00, 0x00);
 
 //Grid color
-pub const GREY: Color = [0.05, 0.05, 0.05, 1.0];
+pub const GREY: Color = [0.15, 0.15, 0.15, 1.0];
