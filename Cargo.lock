@@ -29,7 +29,7 @@ name = "cgl"
 version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "gleam 0.2.6 (registry+https://github.com/rust-lang/crates.io-index)",
+ "gleam 0.2.8 (registry+https://github.com/rust-lang/crates.io-index)",
  "libc 0.2.7 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -292,7 +292,7 @@ dependencies = [
 
 [[package]]
 name = "gleam"
-version = "0.2.6"
+version = "0.2.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "gl_generator 0.4.2 (registry+https://github.com/rust-lang/crates.io-index)",

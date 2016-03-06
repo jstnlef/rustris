@@ -16,5 +16,5 @@ pub const LIME: Color = make_color!(0x80, 0xFF, 0x00);
 pub const PURPLE: Color = make_color!(0x75, 0x50, 0x7B);
 pub const RED: Color = make_color!(0xCC, 0x00, 0x00);
 
-//Grid color
+// Grid color
 pub const GREY: Color = [0.15, 0.15, 0.15, 1.0];
