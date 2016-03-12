@@ -23,7 +23,7 @@ pub trait Renderer {
 }
 
 pub trait GridRenderer {
-    fn render(&self, x: u32, y: u32, context: Context, graphics: &mut G2d);
+    fn render(&self, x: i32, y: i32, context: Context, graphics: &mut G2d);
 }
 
 pub struct Rustris {
@@ -85,7 +85,7 @@ impl Game for Rustris {
     }
 }
 
-pub fn render_square_in_grid(x: u32, y: u32, color: Color, context: Context, graphics: &mut G2d) {
+pub fn render_square_in_grid(x: i32, y: i32, color: Color, context: Context, graphics: &mut G2d) {
     let square = rectangle::square(
         0.0, 0.0, BLOCK_SIZE - (2.0 * GRID_LINE_WIDTH)
     );

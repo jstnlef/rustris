@@ -71,17 +71,17 @@ pub const Z: Tetromino = Tetromino {
 
 pub struct Piece {
     // TODO: Replace with position
-    x: u32,
-    y: u32,
+    x: i32,
+    y: i32,
     ptype: Tetromino,
     rotation: Rotation
 }
 impl Piece {
     pub fn create(ptype: Tetromino) -> Piece {
-        Piece::new(WIDTH_IN_BLOCKS / 2, 0, ptype, 0)
+        Piece::new(WIDTH_IN_BLOCKS as i32 / 2, 0, ptype, 0)
     }
 
-    fn new(x: u32, y: u32, ptype: Tetromino, rotation: Rotation) -> Piece {
+    fn new(x: i32, y: i32, ptype: Tetromino, rotation: Rotation) -> Piece {
         Piece {
             x: x,
             y: y,
@@ -98,18 +98,13 @@ impl Piece {
         self.rotation = (self.rotation + 1) % self.ptype.configurations.len();
     }
 
-    pub fn move_piece(&mut self, dir: Direction) {
-        match dir {
+    pub fn move_piece(&mut self, direction: Direction) {
+        match direction {
             Direction::Left => {
-                // TODO: Replace with in bounds check
-                if self.x > 0 {
-                    self.x -= 1;
-                }
+                self.x -= 1;
             }
             Direction::Right => {
-                if self.x < WIDTH_IN_BLOCKS - 1 {
-                    self.x += 1;
-                }
+                self.x += 1;
             }
         }
     }
@@ -117,9 +112,9 @@ impl Piece {
 impl Renderer for Piece {
     fn render(&self, context: Context, graphics: &mut G2d) {
         for block in self.get_blocks() {
-            let x = self.x as i32 + block.x;
-            let y = self.y as i32 + block.y;
-            render_square_in_grid(x as u32, y as u32, self.ptype.color, context, graphics);
+            let x = self.x + block.x;
+            let y = self.y + block.y;
+            render_square_in_grid(x, y, self.ptype.color, context, graphics);
         }
     }
 }

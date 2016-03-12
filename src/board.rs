@@ -37,7 +37,7 @@ impl Renderer for Board {
         grid.draw(&line, &Default::default(), transform, graphics);
         for x in 0..WIDTH_IN_BLOCKS {
             for y in 0..HEIGHT_IN_BLOCKS {
-                self.get_cell_state(x, y).render(x, y, context, graphics);
+                self.get_cell_state(x, y).render(x as i32, y as i32, context, graphics);
             }
         }
     }
@@ -49,7 +49,7 @@ enum CellState {
     Block(types::Color)
 }
 impl GridRenderer for CellState {
-    fn render(&self, x: u32, y: u32, context: Context, graphics: &mut G2d) {
+    fn render(&self, x: i32, y: i32, context: Context, graphics: &mut G2d) {
         match self {
             &CellState::Block(color) => {
                 render_square_in_grid(x, y, color, context, graphics);
