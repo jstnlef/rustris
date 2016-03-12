@@ -38,7 +38,7 @@ impl Rustris {
     pub fn new() -> Rustris {
         Rustris {
             board: Board::new(),
-            current_piece: Piece::create(J)
+            current_piece: Piece::create(Z)
         }
     }
     pub fn reset(&mut self) {

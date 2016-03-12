@@ -7,64 +7,64 @@ use settings::*;
 
 pub const I: Tetromino = Tetromino {
     configurations: [
-        [Block{x:0, y:2}, Block{x:1, y:2}, Block{x:2, y:2}, Block{x:3, y:2}],
-        [Block{x:2, y:0}, Block{x:2, y:1}, Block{x:2, y:2}, Block{x:2, y:3}],
         [Block{x:0, y:1}, Block{x:1, y:1}, Block{x:2, y:1}, Block{x:3, y:1}],
+        [Block{x:2, y:0}, Block{x:2, y:1}, Block{x:2, y:2}, Block{x:2, y:3}],
+        [Block{x:0, y:2}, Block{x:1, y:2}, Block{x:2, y:2}, Block{x:3, y:2}],
         [Block{x:1, y:0}, Block{x:1, y:1}, Block{x:1, y:2}, Block{x:1, y:3}]
     ],
     color: CYAN
 };
 pub const J: Tetromino = Tetromino {
     configurations: [
-        [Block{x:1, y:3}, Block{x:1, y:2}, Block{x:1, y:1}, Block{x:0, y:1}],
-        [Block{x:0, y:3}, Block{x:0, y:2}, Block{x:1, y:2}, Block{x:2, y:2}],
-        [Block{x:1, y:3}, Block{x:1, y:2}, Block{x:1, y:1}, Block{x:2, y:3}],
-        [Block{x:0, y:2}, Block{x:1, y:2}, Block{x:2, y:2}, Block{x:2, y:1}]
+        [Block{x:0, y:0}, Block{x:0, y:1}, Block{x:1, y:1}, Block{x:2, y:1}],
+        [Block{x:2, y:0}, Block{x:1, y:0}, Block{x:1, y:1}, Block{x:1, y:2}],
+        [Block{x:2, y:2}, Block{x:2, y:1}, Block{x:1, y:1}, Block{x:0, y:1}],
+        [Block{x:0, y:2}, Block{x:1, y:2}, Block{x:1, y:1}, Block{x:1, y:0}]
     ],
     color: BLUE
 };
 pub const L: Tetromino = Tetromino {
     configurations: [
-        [Block{x:1, y:3}, Block{x:1, y:2}, Block{x:1, y:1}, Block{x:2, y:1}],
-        [Block{x:0, y:1}, Block{x:0, y:2}, Block{x:1, y:2}, Block{x:2, y:2}],
-        [Block{x:0, y:3}, Block{x:1, y:3}, Block{x:1, y:2}, Block{x:1, y:1}],
-        [Block{x:0, y:2}, Block{x:1, y:2}, Block{x:2, y:2}, Block{x:2, y:3}]
+        [Block{x:2, y:0}, Block{x:2, y:1}, Block{x:1, y:1}, Block{x:0, y:1}],
+        [Block{x:2, y:2}, Block{x:1, y:2}, Block{x:1, y:1}, Block{x:1, y:0}],
+        [Block{x:0, y:2}, Block{x:0, y:1}, Block{x:1, y:1}, Block{x:2, y:1}],
+        [Block{x:0, y:0}, Block{x:1, y:0}, Block{x:1, y:1}, Block{x:1, y:2}]
     ],
     color: ORANGE
 };
 pub const O: Tetromino = Tetromino {
     configurations: [
-        [Block{x:0, y:3}, Block{x:0, y:2}, Block{x:1, y:3}, Block{x:1, y:2}],
-        [Block{x:0, y:3}, Block{x:0, y:2}, Block{x:1, y:3}, Block{x:1, y:2}],
-        [Block{x:0, y:3}, Block{x:0, y:2}, Block{x:1, y:3}, Block{x:1, y:2}],
-        [Block{x:0, y:3}, Block{x:0, y:2}, Block{x:1, y:3}, Block{x:1, y:2}]
+        [Block{x:1, y:0}, Block{x:1, y:1}, Block{x:2, y:0}, Block{x:2, y:1}],
+        [Block{x:1, y:0}, Block{x:1, y:1}, Block{x:2, y:0}, Block{x:2, y:1}],
+        [Block{x:1, y:0}, Block{x:1, y:1}, Block{x:2, y:0}, Block{x:2, y:1}],
+        [Block{x:1, y:0}, Block{x:1, y:1}, Block{x:2, y:0}, Block{x:2, y:1}]
     ],
     color: YELLOW
 };
 pub const S: Tetromino = Tetromino {
     configurations: [
-        [Block{x:0, y:1}, Block{x:1, y:1}, Block{x:1, y:2}, Block{x:2, y:2}],
-        [Block{x:0, y:3}, Block{x:0, y:2}, Block{x:1, y:2}, Block{x:1, y:1}],
-        [Block{x:0, y:2}, Block{x:1, y:2}, Block{x:1, y:3}, Block{x:2, y:3}],
-        [Block{x:1, y:3}, Block{x:1, y:2}, Block{x:2, y:2}, Block{x:2, y:1}]
+        [Block{x:0, y:1}, Block{x:1, y:1}, Block{x:1, y:0}, Block{x:2, y:0}],
+        [Block{x:1, y:0}, Block{x:1, y:1}, Block{x:2, y:1}, Block{x:2, y:2}],
+        [Block{x:2, y:1}, Block{x:1, y:1}, Block{x:1, y:2}, Block{x:0, y:2}],
+        [Block{x:1, y:2}, Block{x:1, y:1}, Block{x:0, y:1}, Block{x:0, y:0}]
     ],
     color: LIME
 };
 pub const T: Tetromino = Tetromino {
     configurations: [
-        [Block{x:0, y:2}, Block{x:1, y:2}, Block{x:1, y:1}, Block{x:2, y:2}],
-        [Block{x:0, y:2}, Block{x:1, y:3}, Block{x:1, y:2}, Block{x:1, y:1}],
-        [Block{x:0, y:2}, Block{x:1, y:3}, Block{x:1, y:2}, Block{x:2, y:2}],
-        [Block{x:1, y:3}, Block{x:1, y:2}, Block{x:1, y:1}, Block{x:2, y:2}]
+        [Block{x:1, y:0}, Block{x:0, y:1}, Block{x:1, y:1}, Block{x:2, y:1}],
+        [Block{x:2, y:1}, Block{x:1, y:0}, Block{x:1, y:1}, Block{x:1, y:2}],
+        [Block{x:1, y:2}, Block{x:2, y:1}, Block{x:1, y:1}, Block{x:0, y:1}],
+        [Block{x:0, y:1}, Block{x:1, y:0}, Block{x:1, y:1}, Block{x:1, y:2}]
     ],
     color: PURPLE
 };
 pub const Z: Tetromino = Tetromino {
     configurations: [
-        [Block{x:0, y:2}, Block{x:1, y:2}, Block{x:1, y:1}, Block{x:2, y:1}],
-        [Block{x:0, y:2}, Block{x:0, y:1}, Block{x:1, y:2}, Block{x:1, y:3}],
-        [Block{x:0, y:3}, Block{x:1, y:3}, Block{x:1, y:2}, Block{x:2, y:2}],
-        [Block{x:1, y:1}, Block{x:1, y:2}, Block{x:2, y:2}, Block{x:2, y:3}]
+        [Block{x:0, y:0}, Block{x:1, y:0}, Block{x:1, y:1}, Block{x:2, y:1}],
+        [Block{x:2, y:0}, Block{x:2, y:1}, Block{x:1, y:1}, Block{x:1, y:2}],
+        [Block{x:2, y:2}, Block{x:1, y:2}, Block{x:1, y:1}, Block{x:0, y:1}],
+        [Block{x:0, y:2}, Block{x:0, y:1}, Block{x:1, y:1}, Block{x:1, y:0}]
     ],
     color: RED
 };
