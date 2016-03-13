@@ -71,8 +71,9 @@ pub const Z: Tetromino = Tetromino {
 
 pub struct Piece {
     // TODO: Replace with position
-    x: i32,
-    y: i32,
+    // TODO: Make this private again
+    pub x: i32,
+    pub y: i32,
     ptype: Tetromino,
     rotation: Rotation
 }
@@ -90,7 +91,7 @@ impl Piece {
         }
     }
 
-    fn get_blocks(&self) -> &Configuration {
+    pub fn get_blocks(&self) -> &Configuration {
         self.ptype.get_configuration(self.rotation)
     }
 
@@ -137,13 +138,13 @@ impl Tetromino {
     }
 }
 
-type Configuration = [Block; 4];
+pub type Configuration = [Block; 4];
 
 // Store the x and y position relative to rotation point
 #[derive(Debug)]
 pub struct Block {
-    x: i32,
-    y: i32
+    pub x: i32,
+    pub y: i32
 }
 
 #[cfg(test)]
