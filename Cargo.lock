@@ -353,7 +353,7 @@ dependencies = [
  "glob 0.2.11 (registry+https://github.com/rust-lang/crates.io-index)",
  "jpeg-decoder 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "num 0.1.31 (registry+https://github.com/rust-lang/crates.io-index)",
- "png 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "png 0.4.2 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -543,7 +543,7 @@ dependencies = [
 
 [[package]]
 name = "piston-shaders_graphics2d"
-version = "0.1.0"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
@@ -561,13 +561,13 @@ dependencies = [
 
 [[package]]
 name = "piston2d-gfx_graphics"
-version = "0.23.0"
+version = "0.23.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "freetype-rs 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "gfx 0.9.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "piston-gfx_texture 0.10.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "piston-shaders_graphics2d 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "piston-shaders_graphics2d 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "piston2d-graphics 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "shader_version 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -592,7 +592,7 @@ dependencies = [
  "gfx 0.9.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "gfx_device_gl 0.8.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "piston 0.18.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "piston2d-gfx_graphics 0.23.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "piston2d-gfx_graphics 0.23.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "piston2d-graphics 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "pistoncore-glutin_window 0.21.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "shader_version 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -647,7 +647,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "png"
-version = "0.4.1"
+version = "0.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "bitflags 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",
