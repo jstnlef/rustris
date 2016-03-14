@@ -154,12 +154,12 @@ mod tests {
     fn test_piece_rotation() {
         let mut p = Piece::create(I);
         p.rotate();
-	    assert_eq!(p.rotation, 1);
+        assert_eq!(p.rotation, 1);
         p.rotate();
-	    assert_eq!(p.rotation, 2);
+        assert_eq!(p.rotation, 2);
         p.rotate();
-	    assert_eq!(p.rotation, 3);
+        assert_eq!(p.rotation, 3);
         p.rotate();
-	    assert_eq!(p.rotation, 0);
+        assert_eq!(p.rotation, 0);
     }
 }
