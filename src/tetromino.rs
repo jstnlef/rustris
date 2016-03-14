@@ -1,11 +1,19 @@
 use piston_window::{Context, G2d, Transformed, rectangle};
 use piston_window::types::{Color, Matrix2d};
+use rand::{Rng, thread_rng};
 
 use colors::*;
 use game::{Renderer, render_square_in_grid};
 use settings::WIDTH_IN_BLOCKS;
 
-pub const I: Tetromino = Tetromino {
+
+pub fn get_random_piece() -> Piece {
+    let all_tetrominos = [&I, &J, &L, &O, &S, &T, &Z];
+    let ptype = thread_rng().choose(&all_tetrominos).unwrap();
+    Piece::create(*ptype)
+}
+
+pub static I: Tetromino = Tetromino {
     configurations: [
         [Block{x:0, y:1}, Block{x:1, y:1}, Block{x:2, y:1}, Block{x:3, y:1}],
         [Block{x:2, y:0}, Block{x:2, y:1}, Block{x:2, y:2}, Block{x:2, y:3}],
@@ -15,7 +23,7 @@ pub const I: Tetromino = Tetromino {
     color: CYAN
 };
 
-pub const J: Tetromino = Tetromino {
+pub static J: Tetromino = Tetromino {
     configurations: [
         [Block{x:0, y:0}, Block{x:0, y:1}, Block{x:1, y:1}, Block{x:2, y:1}],
         [Block{x:2, y:0}, Block{x:1, y:0}, Block{x:1, y:1}, Block{x:1, y:2}],
@@ -25,7 +33,7 @@ pub const J: Tetromino = Tetromino {
     color: BLUE
 };
 
-pub const L: Tetromino = Tetromino {
+pub static L: Tetromino = Tetromino {
     configurations: [
         [Block{x:2, y:0}, Block{x:2, y:1}, Block{x:1, y:1}, Block{x:0, y:1}],
         [Block{x:2, y:2}, Block{x:1, y:2}, Block{x:1, y:1}, Block{x:1, y:0}],
@@ -35,7 +43,7 @@ pub const L: Tetromino = Tetromino {
     color: ORANGE
 };
 
-pub const O: Tetromino = Tetromino {
+pub static O: Tetromino = Tetromino {
     configurations: [
         [Block{x:1, y:0}, Block{x:1, y:1}, Block{x:2, y:0}, Block{x:2, y:1}],
         [Block{x:1, y:0}, Block{x:1, y:1}, Block{x:2, y:0}, Block{x:2, y:1}],
@@ -45,7 +53,7 @@ pub const O: Tetromino = Tetromino {
     color: YELLOW
 };
 
-pub const S: Tetromino = Tetromino {
+pub static S: Tetromino = Tetromino {
     configurations: [
         [Block{x:0, y:1}, Block{x:1, y:1}, Block{x:1, y:0}, Block{x:2, y:0}],
         [Block{x:1, y:0}, Block{x:1, y:1}, Block{x:2, y:1}, Block{x:2, y:2}],
@@ -55,7 +63,7 @@ pub const S: Tetromino = Tetromino {
     color: LIME
 };
 
-pub const T: Tetromino = Tetromino {
+pub static T: Tetromino = Tetromino {
     configurations: [
         [Block{x:1, y:0}, Block{x:0, y:1}, Block{x:1, y:1}, Block{x:2, y:1}],
         [Block{x:2, y:1}, Block{x:1, y:0}, Block{x:1, y:1}, Block{x:1, y:2}],
@@ -65,7 +73,7 @@ pub const T: Tetromino = Tetromino {
     color: PURPLE
 };
 
-pub const Z: Tetromino = Tetromino {
+pub static Z: Tetromino = Tetromino {
     configurations: [
         [Block{x:0, y:0}, Block{x:1, y:0}, Block{x:1, y:1}, Block{x:2, y:1}],
         [Block{x:2, y:0}, Block{x:2, y:1}, Block{x:1, y:1}, Block{x:1, y:2}],
@@ -80,16 +88,16 @@ pub struct Piece {
     // TODO: Make this private again
     pub x: i32,
     pub y: i32,
-    ptype: Tetromino,
+    ptype: &'static Tetromino,
     rotation: Rotation
 }
 impl Piece {
-    pub fn create(ptype: Tetromino) -> Piece {
+    pub fn create(ptype: &'static Tetromino) -> Piece {
         let x = (WIDTH_IN_BLOCKS as i32 / 2) - 2;
         Piece::new(x, 0, ptype, 0)
     }
 
-    fn new(x: i32, y: i32, ptype: Tetromino, rotation: Rotation) -> Piece {
+    fn new(x: i32, y: i32, ptype: &'static Tetromino, rotation: Rotation) -> Piece {
         Piece {
             x: x,
             y: y,

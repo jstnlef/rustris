@@ -38,7 +38,7 @@ impl Rustris {
     pub fn new() -> Rustris {
         Rustris {
             board: Board::new(),
-            current_piece: Piece::create(Z)
+            current_piece: get_random_piece()
         }
     }
 
@@ -123,6 +123,7 @@ pub fn render_square_in_grid(x: i32, y: i32, color: Color, context: Context, gra
         .trans((x as f64)*BLOCK_SIZE, (y as f64)*BLOCK_SIZE);
     rectangle(color, square, transform, graphics);
 }
+
 
 
 

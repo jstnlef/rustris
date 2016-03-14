@@ -1,10 +1,9 @@
 #[macro_use] extern crate conrod;
 extern crate find_folder;
-// extern crate fps_counter;
 extern crate piston_window;
+extern crate rand;
 
 use conrod::{Theme, Widget};
-// use fps_counter::{FPSCounter};
 use piston_window::*;
 
 mod board;
@@ -30,7 +29,6 @@ type Ui = conrod::Ui<Glyphs>;
 fn main() {
     // Setup
     let window_title = format!("Rustris {}", VERSION);
-    // let mut fps_counter = FPSCounter::new();
 
     // Game Window
     let window: PistonWindow =
