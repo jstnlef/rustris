@@ -29,7 +29,7 @@ pub trait GridRenderer {
 pub struct Rustris {
     board: Board,
     current_piece: Piece,
-    // next_piece: Piece,
+    next_piece: Piece,
     // score: u32,
     // level: u32,
     // state: GameState
@@ -38,7 +38,8 @@ impl Rustris {
     pub fn new() -> Rustris {
         Rustris {
             board: Board::new(),
-            current_piece: get_random_piece()
+            current_piece: get_random_piece(),
+            next_piece: get_random_piece()
         }
     }
 
