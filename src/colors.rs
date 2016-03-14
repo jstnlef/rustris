@@ -1,10 +1,13 @@
-use piston_window::color;
 use piston_window::types::Color;
 
 // Lifted and modified from Conrod
 macro_rules! make_color {
-    ($r:expr, $g:expr, $b:expr) => ([$r as f32 / 255.0, $g as f32 / 255.0, $b as f32 / 255.0, 1.0]);
-    ($r:expr, $g:expr, $b:expr, $a:expr) => ([$r as f32 / 255.0, $g as f32 / 255.0, $b as f32 / 255.0, $a as f32 / 255.0]);
+    ($r:expr, $g:expr, $b:expr) => (
+        [$r as f32 / 255.0, $g as f32 / 255.0, $b as f32 / 255.0, 1.0]
+    );
+    ($r:expr, $g:expr, $b:expr, $a:expr) => (
+        [$r as f32 / 255.0, $g as f32 / 255.0, $b as f32 / 255.0, $a as f32 / 255.0]
+    );
 }
 
 // Tetromino colors

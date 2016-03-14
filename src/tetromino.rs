@@ -3,7 +3,7 @@ use piston_window::types::{Color, Matrix2d};
 
 use colors::*;
 use game::{Renderer, render_square_in_grid};
-use settings::*;
+use settings::WIDTH_IN_BLOCKS;
 
 pub const I: Tetromino = Tetromino {
     configurations: [
@@ -14,6 +14,7 @@ pub const I: Tetromino = Tetromino {
     ],
     color: CYAN
 };
+
 pub const J: Tetromino = Tetromino {
     configurations: [
         [Block{x:0, y:0}, Block{x:0, y:1}, Block{x:1, y:1}, Block{x:2, y:1}],
@@ -23,6 +24,7 @@ pub const J: Tetromino = Tetromino {
     ],
     color: BLUE
 };
+
 pub const L: Tetromino = Tetromino {
     configurations: [
         [Block{x:2, y:0}, Block{x:2, y:1}, Block{x:1, y:1}, Block{x:0, y:1}],
@@ -32,6 +34,7 @@ pub const L: Tetromino = Tetromino {
     ],
     color: ORANGE
 };
+
 pub const O: Tetromino = Tetromino {
     configurations: [
         [Block{x:1, y:0}, Block{x:1, y:1}, Block{x:2, y:0}, Block{x:2, y:1}],
@@ -41,6 +44,7 @@ pub const O: Tetromino = Tetromino {
     ],
     color: YELLOW
 };
+
 pub const S: Tetromino = Tetromino {
     configurations: [
         [Block{x:0, y:1}, Block{x:1, y:1}, Block{x:1, y:0}, Block{x:2, y:0}],
@@ -50,6 +54,7 @@ pub const S: Tetromino = Tetromino {
     ],
     color: LIME
 };
+
 pub const T: Tetromino = Tetromino {
     configurations: [
         [Block{x:1, y:0}, Block{x:0, y:1}, Block{x:1, y:1}, Block{x:2, y:1}],
@@ -59,6 +64,7 @@ pub const T: Tetromino = Tetromino {
     ],
     color: PURPLE
 };
+
 pub const Z: Tetromino = Tetromino {
     configurations: [
         [Block{x:0, y:0}, Block{x:1, y:0}, Block{x:1, y:1}, Block{x:2, y:1}],
@@ -79,7 +85,8 @@ pub struct Piece {
 }
 impl Piece {
     pub fn create(ptype: Tetromino) -> Piece {
-        Piece::new(WIDTH_IN_BLOCKS as i32 / 2, 0, ptype, 0)
+        let x = (WIDTH_IN_BLOCKS as i32 / 2) - 2;
+        Piece::new(x, 0, ptype, 0)
     }
 
     fn new(x: i32, y: i32, ptype: Tetromino, rotation: Rotation) -> Piece {
@@ -140,7 +147,6 @@ impl Tetromino {
 
 pub type Configuration = [Block; 4];
 
-// Store the x and y position relative to rotation point
 #[derive(Debug)]
 pub struct Block {
     pub x: i32,
