@@ -1,9 +1,7 @@
 use piston_window::*;
-use piston_window::grid::Grid;
 use piston_window::types::Color;
 
 use board::Board;
-use colors::GREY;
 use tetromino::*;
 use settings::*;
 
@@ -30,16 +28,18 @@ pub struct Rustris {
     board: Board,
     current_piece: Piece,
     next_piece: Piece,
-    // score: u32,
-    // level: u32,
+    score: u32,
+    level: u32,
     // state: GameState
 }
 impl Rustris {
     pub fn new() -> Rustris {
         Rustris {
             board: Board::new(),
-            current_piece: get_random_piece(),
-            next_piece: get_random_piece()
+            current_piece: create_random_piece(),
+            next_piece: create_random_piece(),
+            score: 0,
+            level: 1
         }
     }
 
@@ -128,79 +128,79 @@ pub fn render_square_in_grid(x: i32, y: i32, color: Color, context: Context, gra
 
 
 
-pub struct TheGame {
-    rotation: f64,
-    x: f64,
-    y: f64,
-    up_d: bool, down_d: bool, left_d: bool, right_d: bool
-}
-impl TheGame {
-    pub fn new() -> TheGame {
-        TheGame { rotation : 0.0, x : 0.0, y : 0.0, up_d: false, down_d: false, left_d: false, right_d: false }
-    }
-}
-impl Game for TheGame {
-    fn on_update(&mut self, update_args: UpdateArgs) {
-        self.rotation += 3.0 * update_args.dt;
-        if self.up_d {
-            self.y += (-50.0) * update_args.dt;
-        }
-        if self.down_d {
-            self.y += (50.0) * update_args.dt;
-        }
-        if self.left_d {
-            self.x += (-50.0) * update_args.dt;
-        }
-        if self.right_d {
-            self.x += (50.0) * update_args.dt;
-        }
-    }
-    fn on_render(&mut self, render_args: RenderArgs, e: PistonWindow) {
-        e.draw_2d(|c, g| {
-            clear([0.0, 0.0, 0.0, 1.0], g);
-            let center = c.transform.trans((render_args.width / 2) as f64, (render_args.height / 2) as f64);
-            let square = rectangle::square(0.0, 0.0, 100.0);
-            let red = [1.0, 0.0, 0.0, 1.0];
-            rectangle(red, square, center.trans(self.x, self.y).rot_rad(self.rotation).trans(-50.0, -50.0), g);
-        });
-    }
-    fn on_input(&mut self, inp: Input) {
-        match inp {
-            Input::Press(but) => {
-                match but {
-                    Button::Keyboard(Key::Up) => {
-                        self.up_d = true;
-                    }
-                    Button::Keyboard(Key::Down) => {
-                        self.down_d = true;
-                    }
-                    Button::Keyboard(Key::Left) => {
-                        self.left_d = true;
-                    }
-                    Button::Keyboard(Key::Right) => {
-                        self.right_d = true;
-                    }
-                    _ => {}
-                }
-            }
-            Input::Release(but) => {
-                match but {
-                    Button::Keyboard(Key::Up) => {
-                        self.up_d = false;
-                    }
-                    Button::Keyboard(Key::Down) => {
-                        self.down_d = false;
-                    }
-                    Button::Keyboard(Key::Left) => {
-                        self.left_d = false;
-                    }
-                    Button::Keyboard(Key::Right) => {
-                        self.right_d = false;
-                    }
-                    _ => {}
-                }
-            }
-            _ => {}
-        }
-    }
-}
+// pub struct TheGame {
+//     rotation: f64,
+//     x: f64,
+//     y: f64,
+//     up_d: bool, down_d: bool, left_d: bool, right_d: bool
+// }
+// impl TheGame {
+//     pub fn new() -> TheGame {
+//         TheGame { rotation : 0.0, x : 0.0, y : 0.0, up_d: false, down_d: false, left_d: false, right_d: false }
+//     }
+// }
+// impl Game for TheGame {
+//     fn on_update(&mut self, update_args: UpdateArgs) {
+//         self.rotation += 3.0 * update_args.dt;
+//         if self.up_d {
+//             self.y += (-50.0) * update_args.dt;
+//         }
+//         if self.down_d {
+//             self.y += (50.0) * update_args.dt;
+//         }
+//         if self.left_d {
+//             self.x += (-50.0) * update_args.dt;
+//         }
+//         if self.right_d {
+//             self.x += (50.0) * update_args.dt;
+//         }
+//     }
+//     fn on_render(&mut self, render_args: RenderArgs, e: PistonWindow) {
+//         e.draw_2d(|c, g| {
+//             clear([0.0, 0.0, 0.0, 1.0], g);
+//             let center = c.transform.trans((render_args.width / 2) as f64, (render_args.height / 2) as f64);
+//             let square = rectangle::square(0.0, 0.0, 100.0);
+//             let red = [1.0, 0.0, 0.0, 1.0];
+//             rectangle(red, square, center.trans(self.x, self.y).rot_rad(self.rotation).trans(-50.0, -50.0), g);
+//         });
+//     }
+//     fn on_input(&mut self, inp: Input) {
+//         match inp {
+//             Input::Press(but) => {
+//                 match but {
+//                     Button::Keyboard(Key::Up) => {
+//                         self.up_d = true;
+//                     }
+//                     Button::Keyboard(Key::Down) => {
+//                         self.down_d = true;
+//                     }
+//                     Button::Keyboard(Key::Left) => {
+//                         self.left_d = true;
+//                     }
+//                     Button::Keyboard(Key::Right) => {
+//                         self.right_d = true;
+//                     }
+//                     _ => {}
+//                 }
+//             }
+//             Input::Release(but) => {
+//                 match but {
+//                     Button::Keyboard(Key::Up) => {
+//                         self.up_d = false;
+//                     }
+//                     Button::Keyboard(Key::Down) => {
+//                         self.down_d = false;
+//                     }
+//                     Button::Keyboard(Key::Left) => {
+//                         self.left_d = false;
+//                     }
+//                     Button::Keyboard(Key::Right) => {
+//                         self.right_d = false;
+//                     }
+//                     _ => {}
+//                 }
+//             }
+//             _ => {}
+//         }
+//     }
+// }

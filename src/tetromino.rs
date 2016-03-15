@@ -1,5 +1,5 @@
-use piston_window::{Context, G2d, Transformed, rectangle};
-use piston_window::types::{Color, Matrix2d};
+use piston_window::{Context, G2d};
+use piston_window::types::Color;
 use rand::{Rng, thread_rng};
 
 use colors::*;
@@ -7,7 +7,7 @@ use game::{Renderer, render_square_in_grid};
 use settings::WIDTH_IN_BLOCKS;
 
 
-pub fn get_random_piece() -> Piece {
+pub fn create_random_piece() -> Piece {
     let all_tetrominos = [&I, &J, &L, &O, &S, &T, &Z];
     let ptype = thread_rng().choose(&all_tetrominos).unwrap();
     Piece::create(*ptype)
@@ -83,6 +83,9 @@ pub static Z: Tetromino = Tetromino {
     color: RED
 };
 
+pub type Configuration = [Block; 4];
+type Rotation = usize;
+
 pub struct Piece {
     // TODO: Replace with position
     // TODO: Make this private again
@@ -124,13 +127,17 @@ impl Piece {
             }
         }
     }
+
+    fn get_color(&self) -> Color {
+        self.ptype.color
+    }
 }
 impl Renderer for Piece {
     fn render(&self, context: Context, graphics: &mut G2d) {
         for block in self.get_blocks() {
             let x = self.x + block.x;
             let y = self.y + block.y;
-            render_square_in_grid(x, y, self.ptype.color, context, graphics);
+            render_square_in_grid(x, y, self.get_color(), context, graphics);
         }
     }
 }
@@ -139,8 +146,6 @@ pub enum Direction {
     Left,
     Right
 }
-
-type Rotation = usize;
 
 #[derive(Debug)]
 pub struct Tetromino {
@@ -153,8 +158,6 @@ impl Tetromino {
     }
 }
 
-pub type Configuration = [Block; 4];
-
 #[derive(Debug)]
 pub struct Block {
     pub x: i32,
@@ -166,7 +169,8 @@ mod tests {
     use super::*;
     #[test]
     fn test_piece_rotation() {
-        let mut p = Piece::create(I);
+        let mut p = Piece::create(&I);
+        assert_eq!(p.rotation, 0);
         p.rotate();
         assert_eq!(p.rotation, 1);
         p.rotate();

@@ -3,13 +3,13 @@ extern crate find_folder;
 extern crate piston_window;
 extern crate rand;
 
-use conrod::{Theme, Widget};
+// use conrod::{Theme, Widget};
 use piston_window::*;
 
 mod board;
 mod colors;
 mod game;
-use game::{Rustris, TheGame, Game};
+use game::{Rustris, Game};
 mod settings;
 use settings::*;
 mod tetromino;
@@ -41,7 +41,6 @@ fn main() {
     // UI Struct
     // let mut ui = create_ui(&window);
 
-    // let mut game = TheGame::new();
     let mut game = Rustris::new();
     // Game Loop
     for e in window {
