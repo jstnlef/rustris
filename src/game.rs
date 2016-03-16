@@ -47,7 +47,7 @@ impl Rustris {
 
     }
 
-    fn is_valid(&self, piece: &Piece) -> bool {
+    fn is_valid_board_position(&self, piece: &Piece) -> bool {
         piece.get_blocks().iter().all(|block| {
             let x = piece.x + block.x;
             let y = piece.y + block.y;
@@ -55,29 +55,36 @@ impl Rustris {
              y >= 0 && y < HEIGHT_IN_BLOCKS as i32)
         })
     }
+
+    fn is_horizontally_inbounds(&self, piece: &Piece) -> bool {
+        piece.get_blocks().iter().all(|block| {
+            let x = piece.x + block.x;
+            x >= 0 && x < WIDTH_IN_BLOCKS as i32
+        })
+    }
 }
 impl Game for Rustris {
     fn on_input(&mut self, input: Input) {
+        let mut new_piece: Option<Piece> = None;
         match input {
             Input::Press(key) => {
                 match key {
                     Button::Keyboard(Key::Up) => {
-                        self.current_piece = self.current_piece.rotated();
+                        let rotated = self.current_piece.rotated();
+                        if !self.is_horizontally_inbounds(&rotated) {
+                            new_piece = Some(rotated.wall_kick());
+                        } else {
+                            new_piece = Some(rotated);
+                        }
                     }
                     Button::Keyboard(Key::Down) => {
 
                     }
                     Button::Keyboard(Key::Left) => {
-                        let new_piece = self.current_piece.moved(Direction::Left);
-                        if self.is_valid(&new_piece) {
-                            self.current_piece = new_piece;
-                        }
+                        new_piece = Some(self.current_piece.moved(Direction::Left));
                     }
                     Button::Keyboard(Key::Right) => {
-                        let new_piece = self.current_piece.moved(Direction::Right);
-                        if self.is_valid(&new_piece) {
-                            self.current_piece = new_piece;
-                        }
+                        new_piece = Some(self.current_piece.moved(Direction::Right));
                     }
                     Button::Keyboard(Key::Space) => {
 
@@ -86,6 +93,14 @@ impl Game for Rustris {
                 }
             }
             _ => {}
+        }
+        match new_piece {
+            Some(p) => {
+                if self.is_valid_board_position(&p) {
+                    self.current_piece = p
+                }
+            },
+            None => {}
         }
     }
 
