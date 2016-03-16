@@ -47,21 +47,10 @@ impl Rustris {
 
     }
 
-    fn current_piece_can_move(&self, direction: Direction) -> bool {
-        let mut grid_x = self.current_piece.x;
-        let grid_y = self.current_piece.y;
-        match direction {
-            Direction::Left => {
-                grid_x -= 1;
-            }
-            Direction::Right => {
-                grid_x += 1;
-            }
-        }
-        // TODO: Might want to replace this with an into_iter Piece
-        self.current_piece.get_blocks().iter().all(|block| {
-            let x = grid_x + block.x;
-            let y = grid_y + block.y;
+    fn is_valid(&self, piece: &Piece) -> bool {
+        piece.get_blocks().iter().all(|block| {
+            let x = piece.x + block.x;
+            let y = piece.y + block.y;
             (x >= 0 && x < WIDTH_IN_BLOCKS as i32 &&
              y >= 0 && y < HEIGHT_IN_BLOCKS as i32)
         })
@@ -73,19 +62,21 @@ impl Game for Rustris {
             Input::Press(key) => {
                 match key {
                     Button::Keyboard(Key::Up) => {
-                        self.current_piece.rotate();
+                        self.current_piece = self.current_piece.rotated();
                     }
                     Button::Keyboard(Key::Down) => {
 
                     }
                     Button::Keyboard(Key::Left) => {
-                        if self.current_piece_can_move(Direction::Left) {
-                            self.current_piece.move_piece(Direction::Left);
+                        let new_piece = self.current_piece.moved(Direction::Left);
+                        if self.is_valid(&new_piece) {
+                            self.current_piece = new_piece;
                         }
                     }
                     Button::Keyboard(Key::Right) => {
-                        if self.current_piece_can_move(Direction::Right) {
-                            self.current_piece.move_piece(Direction::Right);
+                        let new_piece = self.current_piece.moved(Direction::Right);
+                        if self.is_valid(&new_piece) {
+                            self.current_piece = new_piece;
                         }
                     }
                     Button::Keyboard(Key::Space) => {

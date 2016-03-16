@@ -113,18 +113,15 @@ impl Piece {
         self.ptype.get_configuration(self.rotation)
     }
 
-    pub fn rotate(&mut self) {
-        self.rotation = (self.rotation + 1) % self.ptype.configurations.len();
+    pub fn rotated(&self) -> Self {
+        let rotation = (self.rotation + 1) % self.ptype.configurations.len();
+        Self::new(self.x, self.y, self.ptype, rotation)
     }
 
-    pub fn move_piece(&mut self, direction: Direction) {
+    pub fn moved(&self, direction: Direction) -> Self {
         match direction {
-            Direction::Left => {
-                self.x -= 1;
-            }
-            Direction::Right => {
-                self.x += 1;
-            }
+            Direction::Left => Self::new(self.x - 1, self.y, self.ptype, self.rotation),
+            Direction::Right => Self::new(self.x + 1, self.y, self.ptype, self.rotation)
         }
     }
 
@@ -167,17 +164,32 @@ pub struct Block {
 #[cfg(test)]
 mod tests {
     use super::*;
+
     #[test]
-    fn test_piece_rotation() {
+    fn test_piece_rotated() {
         let mut p = Piece::create(&I);
         assert_eq!(p.rotation, 0);
-        p.rotate();
+        p = p.rotated();
         assert_eq!(p.rotation, 1);
-        p.rotate();
+        p = p.rotated();
         assert_eq!(p.rotation, 2);
-        p.rotate();
+        p = p.rotated();
         assert_eq!(p.rotation, 3);
-        p.rotate();
+        p = p.rotated();
         assert_eq!(p.rotation, 0);
+    }
+
+    #[test]
+    fn test_piece_moved_left() {
+        let mut p = Piece::create(&Z);
+        let result = p.moved(Direction::Left);
+        assert_eq!(result.x, p.x - 1);
+    }
+
+    #[test]
+    fn test_piece_moved_right() {
+        let mut p = Piece::create(&Z);
+        let result = p.moved(Direction::Right);
+        assert_eq!(result.x, p.x + 1);
     }
 }
