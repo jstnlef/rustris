@@ -181,6 +181,7 @@ pub struct Block {
     pub y: i32
 }
 
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -211,5 +212,30 @@ mod tests {
         let mut p = Piece::create(&Z);
         let result = p.moved(Direction::Right);
         assert_eq!(result.x, p.x + 1);
+    }
+
+    #[test]
+    fn test_piece_out_of_bounds_simple() {
+        let mut p = Piece::create(&I);
+        p.x += 10;
+        assert_eq!(p.is_out_of_bounds(), true);
+    }
+
+    #[test]
+    fn test_piece_out_of_bounds_at_boundary() {
+        let mut p = Piece::create(&I);
+        p.x = 6;
+        assert_eq!(p.is_out_of_bounds(), false);
+        p.x = 7;
+        assert_eq!(p.is_out_of_bounds(), true);
+        p.x = 0;
+        assert_eq!(p.is_out_of_bounds(), false);
+        p.x = -1;
+        assert_eq!(p.is_out_of_bounds(), true);
+    }
+
+    #[test]
+    fn test_wall_kick() {
+        assert_eq!(false, true)
     }
 }
