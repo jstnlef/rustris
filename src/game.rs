@@ -55,13 +55,6 @@ impl Rustris {
              y >= 0 && y < HEIGHT_IN_BLOCKS as i32)
         })
     }
-
-    fn is_horizontally_inbounds(&self, piece: &Piece) -> bool {
-        piece.get_blocks().iter().all(|block| {
-            let x = piece.x + block.x;
-            x >= 0 && x < WIDTH_IN_BLOCKS as i32
-        })
-    }
 }
 impl Game for Rustris {
     fn on_input(&mut self, input: Input) {
@@ -71,11 +64,11 @@ impl Game for Rustris {
                 match key {
                     Button::Keyboard(Key::Up) => {
                         let rotated = self.current_piece.rotated();
-                        if !self.is_horizontally_inbounds(&rotated) {
-                            new_piece = Some(rotated.wall_kick());
+                        new_piece = if rotated.is_out_of_bounds() {
+                            Some(rotated.wall_kick())
                         } else {
-                            new_piece = Some(rotated);
-                        }
+                            Some(rotated)
+                        };
                     }
                     Button::Keyboard(Key::Down) => {
 

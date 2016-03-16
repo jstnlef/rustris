@@ -126,6 +126,13 @@ impl Piece {
         Self::new(translated_x, self.y, self.ptype, self.rotation)
     }
 
+    pub fn is_out_of_bounds(&self) -> bool {
+        self.get_blocks().iter().any(|block| {
+            let x = self.x + block.x;
+            x < 0 || x >= WIDTH_IN_BLOCKS as i32
+        })
+    }
+
     pub fn wall_kick(&self) -> Self {
         let mut translation = 0;
         let min_block = self.get_blocks().iter().min_by_key(|block| self.x + block.x).unwrap();
