@@ -215,14 +215,7 @@ mod tests {
     }
 
     #[test]
-    fn test_piece_out_of_bounds_simple() {
-        let mut p = Piece::create(&I);
-        p.x += 10;
-        assert_eq!(p.is_out_of_bounds(), true);
-    }
-
-    #[test]
-    fn test_piece_out_of_bounds_at_boundary() {
+    fn test_piece_out_of_bounds() {
         let mut p = Piece::create(&I);
         p.x = 6;
         assert_eq!(p.is_out_of_bounds(), false);
