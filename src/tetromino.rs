@@ -119,10 +119,11 @@ impl Piece {
     }
 
     pub fn moved(&self, direction: Direction) -> Self {
-        match direction {
-            Direction::Left => Self::new(self.x - 1, self.y, self.ptype, self.rotation),
-            Direction::Right => Self::new(self.x + 1, self.y, self.ptype, self.rotation)
-        }
+        let translated_x = match direction {
+            Direction::Left => self.x - 1,
+            Direction::Right => self.x + 1
+        };
+        Self::new(translated_x, self.y, self.ptype, self.rotation)
     }
 
     pub fn wall_kick(&self) -> Self {
