@@ -120,8 +120,10 @@ impl Piece {
     }
 
     pub fn rotated(&self) -> Self {
-        let rotation = (self.rotation + 1) % self.ptype.configurations.len();
-        Self::new(self.x, self.y, self.ptype, rotation)
+        let new_rotation = (self.rotation + 1) % self.ptype.configurations.len();
+        let mut rotated = Self::new(self.x, self.y, self.ptype, new_rotation);
+        rotated.x -= rotated.wall_kick_translation();
+        rotated
     }
 
     pub fn moved(&self, direction: Direction) -> Self {
@@ -133,23 +135,16 @@ impl Piece {
         Self::new(translated_x, self.y, self.ptype, self.rotation)
     }
 
-    pub fn is_out_of_bounds(&self) -> bool {
-        self.blocks_iter().any(|block| {
-            block.x < 0 || block.x >= WIDTH_IN_BLOCKS as i32
-        })
-    }
-
-    pub fn wall_kick(&self) -> Self {
-        // TODO: Refactor to use blocks_iter when test is written
-        let mut translation = 0;
+    fn wall_kick_translation(&self) -> i32 {
         let min_block = self.blocks_iter().min_by_key(|block| block.x).unwrap();
         let max_block = self.blocks_iter().max_by_key(|block| block.x).unwrap();
         if min_block.x < 0 {
-            translation = min_block.x;
+            min_block.x
         } else if max_block.x >= WIDTH_IN_BLOCKS as i32 {
-            translation = max_block.x - (WIDTH_IN_BLOCKS - 1) as i32;
+            max_block.x - WIDTH_IN_BLOCKS as i32 + 1
+        } else {
+            0
         }
-        Self::new(self.x - translation, self.y, self.ptype, self.rotation)
     }
 
     fn get_color(&self) -> Color {
@@ -194,7 +189,6 @@ impl Iterator for BlockIterator {
     }
 }
 
-
 pub enum Direction {
     Left,
     Right
@@ -224,16 +218,28 @@ mod tests {
 
     #[test]
     fn test_piece_rotated() {
+        let original = Piece::create(&I);
+        assert_eq!(original.rotation, 0);
+        let mut rotated = original.rotated();
+        assert_eq!(rotated.rotation, 1);
+        assert_eq!(original.x, rotated.x);
+        rotated = rotated.rotated();
+        assert_eq!(rotated.rotation, 2);
+        assert_eq!(original.x, rotated.x);
+        rotated = rotated.rotated();
+        assert_eq!(rotated.rotation, 3);
+        assert_eq!(original.x, rotated.x);
+        rotated = rotated.rotated();
+        assert_eq!(rotated.rotation, 0);
+        assert_eq!(original.x, rotated.x);
+    }
+
+    #[test]
+    fn test_piece_rotated_kicked() {
         let mut p = Piece::create(&I);
-        assert_eq!(p.rotation, 0);
-        p = p.rotated();
-        assert_eq!(p.rotation, 1);
-        p = p.rotated();
-        assert_eq!(p.rotation, 2);
-        p = p.rotated();
-        assert_eq!(p.rotation, 3);
-        p = p.rotated();
-        assert_eq!(p.rotation, 0);
+        p.x = 9;
+        let rotated = p.rotated();
+        assert_eq!(rotated.x, 7)
     }
 
     #[test]
@@ -251,33 +257,26 @@ mod tests {
     }
 
     #[test]
-    fn test_piece_out_of_bounds() {
-        let mut p = Piece::create(&I);
-        p.x = 6;
-        assert_eq!(p.is_out_of_bounds(), false);
-        p.x = 7;
-        assert_eq!(p.is_out_of_bounds(), true);
-        p.x = 0;
-        assert_eq!(p.is_out_of_bounds(), false);
-        p.x = -1;
-        assert_eq!(p.is_out_of_bounds(), true);
-    }
-
-    #[test]
     fn test_wall_kick_in_bounds() {
         let p = Piece::create(&I);
-        let kicked = p.wall_kick();
-        assert_eq!(kicked.x, p.x);
-        assert_eq!(kicked.y, p.y);
+        let kicked_translation = p.wall_kick_translation();
+        assert_eq!(kicked_translation, 0);
     }
 
     #[test]
-    fn test_wall_kick_out_of_bounds() {
+    fn test_wall_kick_out_of_bounds_right() {
         let mut p = Piece::create(&I);
-        p.x = 7;
-        let kicked = p.wall_kick();
-        assert_eq!(kicked.x, 6);
-        assert_eq!(kicked.y, p.y);
+        p.x = 9;
+        let kicked_translation = p.wall_kick_translation();
+        assert_eq!(kicked_translation, 3);
+    }
+
+    #[test]
+    fn test_wall_kick_out_of_bounds_left() {
+        let mut p = Piece::create(&I);
+        p.x = -2;
+        let kicked_translation = p.wall_kick_translation();
+        assert_eq!(kicked_translation, -2);
     }
 
     #[test]

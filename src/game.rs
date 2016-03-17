@@ -64,12 +64,7 @@ impl Game for Rustris {
             Input::Press(key) => {
                 match key {
                     Button::Keyboard(Key::Up) => {
-                        let rotated = self.current_piece.rotated();
-                        new_piece = if rotated.is_out_of_bounds() {
-                            Some(rotated.wall_kick())
-                        } else {
-                            Some(rotated)
-                        };
+                        new_piece = Some(self.current_piece.rotated());
                     }
                     Button::Keyboard(Key::Down) => {
 
