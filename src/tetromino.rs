@@ -110,7 +110,13 @@ impl Piece {
     }
 
     pub fn get_blocks(&self) -> &Configuration {
+        // TODO: Remove this in favor of blocks_iter
         self.ptype.get_configuration(self.rotation)
+    }
+
+    pub fn blocks_iter(&self) -> BlockIterator {
+        let configuration = self.ptype.get_configuration(self.rotation);
+        BlockIterator::new(self.x, self.y, configuration)
     }
 
     pub fn rotated(&self) -> Self {
@@ -119,6 +125,7 @@ impl Piece {
     }
 
     pub fn moved(&self, direction: Direction) -> Self {
+        // TODO: Add direction Down and have it move here
         let translated_x = match direction {
             Direction::Left => self.x - 1,
             Direction::Right => self.x + 1
@@ -127,13 +134,13 @@ impl Piece {
     }
 
     pub fn is_out_of_bounds(&self) -> bool {
-        self.get_blocks().iter().any(|block| {
-            let x = self.x + block.x;
-            x < 0 || x >= WIDTH_IN_BLOCKS as i32
+        self.blocks_iter().any(|block| {
+            block.x < 0 || block.x >= WIDTH_IN_BLOCKS as i32
         })
     }
 
     pub fn wall_kick(&self) -> Self {
+        // TODO: Refactor to use blocks_iter when test is written
         let mut translation = 0;
         let min_block = self.get_blocks().iter().min_by_key(|block| self.x + block.x).unwrap();
         let max_block = self.get_blocks().iter().max_by_key(|block| self.x + block.x).unwrap();
@@ -151,13 +158,42 @@ impl Piece {
 }
 impl Renderer for Piece {
     fn render(&self, context: Context, graphics: &mut G2d) {
-        for block in self.get_blocks() {
-            let x = self.x + block.x;
-            let y = self.y + block.y;
-            render_square_in_grid(x, y, self.get_color(), context, graphics);
+        for block in self.blocks_iter() {
+            render_square_in_grid(block.x, block.y, self.get_color(), context, graphics);
         }
     }
 }
+
+pub struct BlockIterator {
+    x: i32,
+    y: i32,
+    index: usize,
+    blocks: &'static Configuration
+}
+impl BlockIterator {
+    pub fn new(x: i32, y: i32, blocks: &'static Configuration) -> BlockIterator {
+        BlockIterator {
+            x: x,
+            y: y,
+            index: 0,
+            blocks: blocks
+        }
+    }
+}
+impl Iterator for BlockIterator {
+    type Item = Block;
+    fn next(&mut self) -> Option<Block> {
+        if self.index >= self.blocks.len() {
+            return None;
+        }
+        let ref block = self.blocks[self.index];
+        self.index += 1;
+        let translated_x = self.x + block.x;
+        let translated_y = self.y + block.y;
+        Some(Block{x: translated_x, y: translated_y})
+    }
+}
+
 
 pub enum Direction {
     Left,
@@ -175,7 +211,7 @@ impl Tetromino {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct Block {
     pub x: i32,
     pub y: i32
@@ -228,7 +264,29 @@ mod tests {
     }
 
     #[test]
-    fn test_wall_kick() {
-        assert_eq!(false, true)
+    fn test_wall_kick_in_bounds() {
+        let p = Piece::create(&I);
+        let kicked = p.wall_kick();
+        assert_eq!(kicked.x, p.x);
+        assert_eq!(kicked.y, p.y);
+    }
+
+    #[test]
+    fn test_wall_kick_out_of_bounds() {
+        let mut p = Piece::create(&I);
+        p.x = 7;
+        let kicked = p.wall_kick();
+        assert_eq!(kicked.x, 6);
+        assert_eq!(kicked.y, p.y);
+    }
+
+    #[test]
+    fn test_block_iterator() {
+        let mut block_iter = BlockIterator::new(2, 2, &I.configurations[0]);
+        assert_eq!(block_iter.next(), Some(Block{x: 2, y: 3}));
+        assert_eq!(block_iter.next(), Some(Block{x: 3, y: 3}));
+        assert_eq!(block_iter.next(), Some(Block{x: 4, y: 3}));
+        assert_eq!(block_iter.next(), Some(Block{x: 5, y: 3}));
+        assert_eq!(block_iter.next(), None);
     }
 }
