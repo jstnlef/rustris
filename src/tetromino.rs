@@ -109,11 +109,6 @@ impl Piece {
         }
     }
 
-    pub fn get_blocks(&self) -> &Configuration {
-        // TODO: Remove this in favor of blocks_iter
-        self.ptype.get_configuration(self.rotation)
-    }
-
     pub fn blocks_iter(&self) -> BlockIterator {
         let configuration = self.ptype.get_configuration(self.rotation);
         BlockIterator::new(self.x, self.y, configuration)

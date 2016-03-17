@@ -48,12 +48,9 @@ impl Rustris {
     }
 
     fn is_valid_board_position(&self, piece: &Piece) -> bool {
-        // TODO: Refactor to use piece.blocks_iter() when test is written
-        piece.get_blocks().iter().all(|block| {
-            let x = piece.x + block.x;
-            let y = piece.y + block.y;
-            (x >= 0 && x < WIDTH_IN_BLOCKS as i32 &&
-             y >= 0 && y < HEIGHT_IN_BLOCKS as i32)
+        piece.blocks_iter().all(|block| {
+            (block.x >= 0 && block.x < WIDTH_IN_BLOCKS as i32 &&
+             block.y >= 0 && block.y < HEIGHT_IN_BLOCKS as i32)
         })
     }
 }
