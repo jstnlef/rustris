@@ -122,12 +122,12 @@ impl Piece {
     }
 
     pub fn moved(&self, direction: Direction) -> Self {
-        // TODO: Add direction Down and have it move here
-        let translated_x = match direction {
-            Direction::Left => self.x - 1,
-            Direction::Right => self.x + 1
+        let (trans_x, trans_y) = match direction {
+            Direction::Left => (-1, 0),
+            Direction::Right => (1, 0),
+            Direction::Down => (0, 1)
         };
-        Self::new(translated_x, self.y, self.ptype, self.rotation)
+        Self::new(self.x + trans_x, self.y + trans_y, self.ptype, self.rotation)
     }
 
     fn wall_kick_translation(&self) -> i32 {
@@ -186,7 +186,8 @@ impl Iterator for BlockIterator {
 
 pub enum Direction {
     Left,
-    Right
+    Right,
+    Down
 }
 
 #[derive(Debug)]

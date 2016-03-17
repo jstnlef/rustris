@@ -30,6 +30,7 @@ pub struct Rustris {
     next_piece: Piece,
     score: u32,
     level: u32,
+    time_since_moved: f64
     // state: GameState
 }
 impl Rustris {
@@ -39,7 +40,8 @@ impl Rustris {
             current_piece: create_random_piece(),
             next_piece: create_random_piece(),
             score: 0,
-            level: 1
+            level: 1,
+            time_since_moved: 0.0
         }
     }
 
@@ -91,7 +93,14 @@ impl Game for Rustris {
     }
 
     fn on_update(&mut self, update_args: UpdateArgs) {
-
+        self.time_since_moved += update_args.dt;
+        // TODO: The threshold needs to be able to be updated
+        // as the game progresses
+        if self.time_since_moved >= 1.0 {
+            let moved = self.current_piece.moved(Direction::Down);
+            self.set_current_piece(moved);
+            self.time_since_moved -= 1.0;
+        }
     }
 
     fn on_render(&mut self, render_args: RenderArgs, e: PistonWindow) {

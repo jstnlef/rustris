@@ -42,6 +42,7 @@ fn main() {
     // let mut ui = create_ui(&window);
 
     let mut game = Rustris::new();
+
     // Game Loop
     for e in window {
         match e.event {
