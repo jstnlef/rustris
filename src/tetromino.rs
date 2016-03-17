@@ -142,12 +142,12 @@ impl Piece {
     pub fn wall_kick(&self) -> Self {
         // TODO: Refactor to use blocks_iter when test is written
         let mut translation = 0;
-        let min_block = self.get_blocks().iter().min_by_key(|block| self.x + block.x).unwrap();
-        let max_block = self.get_blocks().iter().max_by_key(|block| self.x + block.x).unwrap();
-        if self.x + min_block.x < 0 {
-            translation = self.x + min_block.x;
-        } else if self.x + max_block.x >= WIDTH_IN_BLOCKS as i32 {
-            translation = (self.x + max_block.x) - (WIDTH_IN_BLOCKS - 1) as i32;
+        let min_block = self.blocks_iter().min_by_key(|block| block.x).unwrap();
+        let max_block = self.blocks_iter().max_by_key(|block| block.x).unwrap();
+        if min_block.x < 0 {
+            translation = min_block.x;
+        } else if max_block.x >= WIDTH_IN_BLOCKS as i32 {
+            translation = max_block.x - (WIDTH_IN_BLOCKS - 1) as i32;
         }
         Self::new(self.x - translation, self.y, self.ptype, self.rotation)
     }
