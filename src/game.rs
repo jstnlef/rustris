@@ -47,6 +47,12 @@ impl Rustris {
 
     }
 
+    pub fn set_current_piece(&mut self, piece: Piece) {
+        if self.is_valid_board_position(&piece) {
+            self.current_piece = piece;
+        }
+    }
+
     fn is_valid_board_position(&self, piece: &Piece) -> bool {
         piece.blocks_iter().all(|block| {
             (block.x >= 0 && block.x < WIDTH_IN_BLOCKS as i32 &&
@@ -56,21 +62,23 @@ impl Rustris {
 }
 impl Game for Rustris {
     fn on_input(&mut self, input: Input) {
-        let mut new_piece: Option<Piece> = None;
         match input {
             Input::Press(key) => {
                 match key {
                     Button::Keyboard(Key::Up) => {
-                        new_piece = Some(self.current_piece.rotated());
+                        let rotated = self.current_piece.rotated();
+                        self.set_current_piece(rotated);
                     }
                     Button::Keyboard(Key::Down) => {
 
                     }
                     Button::Keyboard(Key::Left) => {
-                        new_piece = Some(self.current_piece.moved(Direction::Left));
+                        let moved = self.current_piece.moved(Direction::Left);
+                        self.set_current_piece(moved);
                     }
                     Button::Keyboard(Key::Right) => {
-                        new_piece = Some(self.current_piece.moved(Direction::Right));
+                        let moved = self.current_piece.moved(Direction::Right);
+                        self.set_current_piece(moved);
                     }
                     Button::Keyboard(Key::Space) => {
 
@@ -79,14 +87,6 @@ impl Game for Rustris {
                 }
             }
             _ => {}
-        }
-        match new_piece {
-            Some(p) => {
-                if self.is_valid_board_position(&p) {
-                    self.current_piece = p
-                }
-            },
-            None => {}
         }
     }
 
