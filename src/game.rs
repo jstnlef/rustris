@@ -30,7 +30,8 @@ pub struct Rustris {
     next_piece: Piece,
     score: u32,
     level: u32,
-    time_since_moved: f64
+    time_since_moved: f64,
+    time_per_tick: f64
     // state: GameState
 }
 impl Rustris {
@@ -41,7 +42,8 @@ impl Rustris {
             next_piece: create_random_piece(),
             score: 0,
             level: 1,
-            time_since_moved: 0.0
+            time_since_moved: 0.0,
+            time_per_tick: 0.3  //For testing
         }
     }
 
@@ -58,7 +60,15 @@ impl Rustris {
     fn is_valid_board_position(&self, piece: &Piece) -> bool {
         piece.blocks_iter().all(|block| {
             (block.x >= 0 && block.x < WIDTH_IN_BLOCKS as i32 &&
-             block.y >= 0 && block.y < HEIGHT_IN_BLOCKS as i32)
+             block.y >= 0 && block.y < HEIGHT_IN_BLOCKS as i32 &&
+             !self.board.is_space_occupied(block))
+        })
+    }
+
+    fn has_landed(&self, piece: &Piece) -> bool {
+        piece.blocks_iter().any(|block| {
+            block.y >= HEIGHT_IN_BLOCKS as i32 ||
+            self.board.is_space_occupied(block)
         })
     }
 }
@@ -96,10 +106,17 @@ impl Game for Rustris {
         self.time_since_moved += update_args.dt;
         // TODO: The threshold needs to be able to be updated
         // as the game progresses
-        if self.time_since_moved >= 1.0 {
+        if self.time_since_moved >= self.time_per_tick {
+            self.time_since_moved -= self.time_per_tick;
             let moved = self.current_piece.moved(Direction::Down);
-            self.set_current_piece(moved);
-            self.time_since_moved -= 1.0;
+            if self.has_landed(&moved) {
+                self.board.set_piece(&self.current_piece);
+                let next = self.next_piece;
+                self.set_current_piece(next);
+                self.next_piece = create_random_piece();
+            } else {
+                self.set_current_piece(moved);
+            }
         }
     }
 

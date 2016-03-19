@@ -86,6 +86,7 @@ pub static Z: Tetromino = Tetromino {
 pub type Configuration = [Block; 4];
 type Rotation = usize;
 
+#[derive(Clone, Copy)]
 pub struct Piece {
     // TODO: Replace with position
     // TODO: Make this private again
@@ -142,7 +143,7 @@ impl Piece {
         }
     }
 
-    fn get_color(&self) -> Color {
+    pub fn get_color(&self) -> Color {
         self.ptype.color
     }
 }
