@@ -18,27 +18,23 @@ impl Board {
     }
 
     pub fn set_piece(&mut self, piece: &Piece) {
-        // TODO: Add tests for this
         for block in piece.blocks_iter() {
             self.set_cell_state(block, CellState::Block(piece.get_color()));
         }
     }
 
     pub fn is_space_occupied(&self, block: Block) -> bool {
-        // TODO: Add tests for this
         match self.get_cell_state(block.x, block.y) {
-            &CellState::Block(_) => true,
-            &CellState::Empty => false
+            CellState::Block(_) => true,
+            CellState::Empty => false
         }
     }
 
-    fn get_cell_state(&self, x: i32, y: i32) -> &CellState {
-        // TODO: Add tests for this
-        &self.grid[x as usize][y as usize]
+    fn get_cell_state(&self, x: i32, y: i32) -> CellState {
+        self.grid[x as usize][y as usize]
     }
 
     fn set_cell_state(&mut self, block: Block, cell_state: CellState) {
-        // TODO: Add tests for this
         self.grid[block.x as usize][block.y as usize] = cell_state;
     }
 }
@@ -60,8 +56,8 @@ impl Renderer for Board {
     }
 }
 
-#[derive(Clone, Copy)]
-enum CellState {
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum CellState {
     Empty,
     Block(types::Color)
 }
@@ -73,5 +69,43 @@ impl GridRenderer for CellState {
             },
             CellState::Empty => {}
         }
+    }
+}
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use colors::{RED, CYAN};
+    use tetromino::{Block, Piece, I};
+
+    #[test]
+    fn test_set_piece() {
+        let mut board = Board::new();
+        let piece = Piece::create(&I);
+        board.set_piece(&piece);
+        assert_eq!(board.get_cell_state(2, 1), CellState::Empty);
+        assert_eq!(board.get_cell_state(3, 1), CellState::Block(CYAN));
+        assert_eq!(board.get_cell_state(4, 1), CellState::Block(CYAN));
+        assert_eq!(board.get_cell_state(5, 1), CellState::Block(CYAN));
+        assert_eq!(board.get_cell_state(6, 1), CellState::Block(CYAN));
+        assert_eq!(board.get_cell_state(7, 1), CellState::Empty);
+    }
+
+    #[test]
+    fn test_is_space_occupied() {
+        let mut board = Board::new();
+        let block = Block{x: 2, y: 2};
+        board.set_cell_state(block, CellState::Block(RED));
+        assert!(board.is_space_occupied(block));
+        assert!(!board.is_space_occupied(Block{x: 0, y: 0}));
+    }
+
+    #[test]
+    fn test_set_cell_state() {
+        let mut board = Board::new();
+        assert_eq!(board.get_cell_state(0, 0), CellState::Empty);
+        board.set_cell_state(Block{x: 2, y: 2}, CellState::Block(RED));
+        assert_eq!(board.get_cell_state(2, 2), CellState::Block(RED));
     }
 }

@@ -52,12 +52,14 @@ impl Rustris {
     }
 
     pub fn set_current_piece(&mut self, piece: Piece) {
+        // TODO: Add tests for this
         if self.is_valid_board_position(&piece) {
             self.current_piece = piece;
         }
     }
 
     fn is_valid_board_position(&self, piece: &Piece) -> bool {
+        // TODO: Add tests for this
         piece.blocks_iter().all(|block| {
             (block.x >= 0 && block.x < WIDTH_IN_BLOCKS as i32 &&
              block.y >= 0 && block.y < HEIGHT_IN_BLOCKS as i32 &&
@@ -66,6 +68,7 @@ impl Rustris {
     }
 
     fn has_landed(&self, piece: &Piece) -> bool {
+        // TODO: Add tests for this
         piece.blocks_iter().any(|block| {
             block.y >= HEIGHT_IN_BLOCKS as i32 ||
             self.board.is_space_occupied(block)
@@ -129,6 +132,7 @@ impl Game for Rustris {
     }
 }
 
+// TODO: Move this into its own module
 pub fn render_square_in_grid(x: i32, y: i32, color: Color, context: Context, graphics: &mut G2d) {
     let square = rectangle::square(
         0.0, 0.0, BLOCK_SIZE - (2.0 * GRID_LINE_WIDTH)
