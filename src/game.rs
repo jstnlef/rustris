@@ -69,7 +69,7 @@ impl Rustris {
         })
     }
 
-    fn has_landed(&self, piece: &Piece) -> bool {
+    fn should_lock(&self, piece: &Piece) -> bool {
         // TODO: Add tests for this
         piece.blocks_iter().any(|block| {
             block.y >= HEIGHT_IN_BLOCKS ||
@@ -77,13 +77,30 @@ impl Rustris {
         })
     }
 
+    fn lock_current_piece(&mut self) {
+        self.board.set_piece(&self.current_piece);
+    }
+
+    fn remove_completed_rows(&mut self) {
+        let number_removed = self.board.remove_completed_rows();
+        if number_removed > 0 {
+            println!("Removed {} rows from the board.", number_removed);
+        }
+        // TODO: calculate and add to the score here.
+    }
+
+    fn get_new_piece(&mut self) {
+        let next = self.next_piece;
+        self.set_current_piece(next);
+        self.next_piece = create_random_piece();
+    }
+
     fn update(&mut self) {
         let moved = self.current_piece.moved(Direction::Down);
-        if self.has_landed(&moved) {
-            self.board.set_piece(&self.current_piece);
-            let next = self.next_piece;
-            self.set_current_piece(next);
-            self.next_piece = create_random_piece();
+        if self.should_lock(&moved) {
+            self.lock_current_piece();
+            self.remove_completed_rows();
+            self.get_new_piece();
         } else {
             self.set_current_piece(moved);
         }

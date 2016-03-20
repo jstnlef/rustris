@@ -30,6 +30,12 @@ impl Board {
         }
     }
 
+    // Removes completed rows from the board and returns the number
+    // of rows completed.
+    pub fn remove_completed_rows(&mut self) -> i32 {
+        0
+    }
+
     fn get_cell_state(&self, x: i32, y: i32) -> CellState {
         self.grid[x as usize][y as usize]
     }
