@@ -8,12 +8,12 @@ use tetromino::{Piece, Block};
 use settings::*;
 
 pub struct Board {
-    grid: [[CellState; HEIGHT_IN_BLOCKS as usize]; WIDTH_IN_BLOCKS as usize]
+    grid: [[CellState; WIDTH_IN_BLOCKS as usize]; HEIGHT_IN_BLOCKS as usize]
 }
 impl Board {
     pub fn new() -> Board {
         Board {
-            grid: [[CellState::Empty; HEIGHT_IN_BLOCKS as usize]; WIDTH_IN_BLOCKS as usize]
+            grid: [[CellState::Empty; WIDTH_IN_BLOCKS as usize]; HEIGHT_IN_BLOCKS as usize]
         }
     }
 
@@ -37,11 +37,11 @@ impl Board {
     }
 
     fn get_cell_state(&self, x: i32, y: i32) -> CellState {
-        self.grid[x as usize][y as usize]
+        self.grid[y as usize][x as usize]
     }
 
     fn set_cell_state(&mut self, block: Block, cell_state: CellState) {
-        self.grid[block.x as usize][block.y as usize] = cell_state;
+        self.grid[block.y as usize][block.x as usize] = cell_state;
     }
 }
 impl Renderer for Board {
