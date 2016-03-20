@@ -28,9 +28,9 @@ pub struct Rustris {
     board: Board,
     current_piece: Piece,
     next_piece: Piece,
-    score: u32,
+    score: u64,
     level: u32,
-    lines: u32,
+    lines: u64,
     time_since_moved: f64,
     time_per_tick: f64
     // state: GameState
@@ -45,7 +45,7 @@ impl Rustris {
             level: 1,
             lines: 0,
             time_since_moved: 0.0,
-            time_per_tick: 0.3  //For testing
+            time_per_tick: 1.0  //For testing
         }
     }
 
@@ -99,7 +99,9 @@ impl Game for Rustris {
                         self.set_current_piece(rotated);
                     }
                     Button::Keyboard(Key::Down) => {
-
+                        let moved = self.current_piece.moved(Direction::Down);
+                        self.set_current_piece(moved);
+                        self.time_since_moved = 0.0;
                     }
                     Button::Keyboard(Key::Left) => {
                         let moved = self.current_piece.moved(Direction::Left);
