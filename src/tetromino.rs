@@ -241,14 +241,14 @@ mod tests {
 
     #[test]
     fn test_piece_moved_left() {
-        let mut p = Piece::create(&Z);
+        let p = Piece::create(&Z);
         let result = p.moved(Direction::Left);
         assert_eq!(result.x, p.x - 1);
     }
 
     #[test]
     fn test_piece_moved_right() {
-        let mut p = Piece::create(&Z);
+        let p = Piece::create(&Z);
         let result = p.moved(Direction::Right);
         assert_eq!(result.x, p.x + 1);
     }
