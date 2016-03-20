@@ -97,7 +97,7 @@ pub struct Piece {
 }
 impl Piece {
     pub fn create(ptype: &'static Tetromino) -> Piece {
-        let x = (WIDTH_IN_BLOCKS as i32 / 2) - 2;
+        let x = (WIDTH_IN_BLOCKS / 2) - 2;
         Piece::new(x, 0, ptype, 0)
     }
 
@@ -136,8 +136,8 @@ impl Piece {
         let max_block = self.blocks_iter().max_by_key(|block| block.x).unwrap();
         if min_block.x < 0 {
             min_block.x
-        } else if max_block.x >= WIDTH_IN_BLOCKS as i32 {
-            max_block.x - WIDTH_IN_BLOCKS as i32 + 1
+        } else if max_block.x >= WIDTH_IN_BLOCKS {
+            max_block.x - WIDTH_IN_BLOCKS + 1
         } else {
             0
         }

@@ -63,8 +63,8 @@ impl Rustris {
     fn is_valid_board_position(&self, piece: &Piece) -> bool {
         // TODO: Add tests for this
         piece.blocks_iter().all(|block| {
-            (block.x >= 0 && block.x < WIDTH_IN_BLOCKS as i32 &&
-             block.y >= 0 && block.y < HEIGHT_IN_BLOCKS as i32 &&
+            (block.x >= 0 && block.x < WIDTH_IN_BLOCKS &&
+             block.y >= 0 && block.y < HEIGHT_IN_BLOCKS &&
              !self.board.is_space_occupied(block))
         })
     }
@@ -72,7 +72,7 @@ impl Rustris {
     fn has_landed(&self, piece: &Piece) -> bool {
         // TODO: Add tests for this
         piece.blocks_iter().any(|block| {
-            block.y >= HEIGHT_IN_BLOCKS as i32 ||
+            block.y >= HEIGHT_IN_BLOCKS ||
             self.board.is_space_occupied(block)
         })
     }

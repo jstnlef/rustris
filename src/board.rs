@@ -41,16 +41,16 @@ impl Board {
 impl Renderer for Board {
     fn render(&self, context: Context, graphics: &mut G2d) {
         let grid = Grid {
-            cols: WIDTH_IN_BLOCKS,
-            rows: HEIGHT_IN_BLOCKS,
+            cols: WIDTH_IN_BLOCKS as u32,
+            rows: HEIGHT_IN_BLOCKS as u32,
             units: BLOCK_SIZE
         };
         let line = Line::new(GREY, GRID_LINE_WIDTH);
         let transform = context.transform.trans(GRID_X_OFFSET, GRID_Y_OFFSET);
         grid.draw(&line, &Default::default(), transform, graphics);
-        for x in 0..WIDTH_IN_BLOCKS as i32 {
-            for y in 0..HEIGHT_IN_BLOCKS as i32 {
-                self.get_cell_state(x, y).render(x as i32, y as i32, context, graphics);
+        for x in 0..WIDTH_IN_BLOCKS {
+            for y in 0..HEIGHT_IN_BLOCKS {
+                self.get_cell_state(x, y).render(x, y, context, graphics);
             }
         }
     }
