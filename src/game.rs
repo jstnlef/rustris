@@ -30,6 +30,7 @@ pub struct Rustris {
     next_piece: Piece,
     score: u32,
     level: u32,
+    lines: u32,
     time_since_moved: f64,
     time_per_tick: f64
     // state: GameState
@@ -42,6 +43,7 @@ impl Rustris {
             next_piece: create_random_piece(),
             score: 0,
             level: 1,
+            lines: 0,
             time_since_moved: 0.0,
             time_per_tick: 0.3  //For testing
         }
@@ -73,6 +75,18 @@ impl Rustris {
             block.y >= HEIGHT_IN_BLOCKS as i32 ||
             self.board.is_space_occupied(block)
         })
+    }
+
+    fn update(&mut self) {
+        let moved = self.current_piece.moved(Direction::Down);
+        if self.has_landed(&moved) {
+            self.board.set_piece(&self.current_piece);
+            let next = self.next_piece;
+            self.set_current_piece(next);
+            self.next_piece = create_random_piece();
+        } else {
+            self.set_current_piece(moved);
+        }
     }
 }
 impl Game for Rustris {
@@ -111,15 +125,7 @@ impl Game for Rustris {
         // as the game progresses
         if self.time_since_moved >= self.time_per_tick {
             self.time_since_moved -= self.time_per_tick;
-            let moved = self.current_piece.moved(Direction::Down);
-            if self.has_landed(&moved) {
-                self.board.set_piece(&self.current_piece);
-                let next = self.next_piece;
-                self.set_current_piece(next);
-                self.next_piece = create_random_piece();
-            } else {
-                self.set_current_piece(moved);
-            }
+            self.update();
         }
     }
 
