@@ -213,7 +213,7 @@ dependencies = [
 
 [[package]]
 name = "gcc"
-version = "0.3.25"
+version = "0.3.26"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
@@ -427,7 +427,7 @@ name = "libz-sys"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "gcc 0.3.25 (registry+https://github.com/rust-lang/crates.io-index)",
+ "gcc 0.3.26 (registry+https://github.com/rust-lang/crates.io-index)",
  "libc 0.2.8 (registry+https://github.com/rust-lang/crates.io-index)",
  "pkg-config 0.3.8 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -469,7 +469,7 @@ name = "miniz-sys"
 version = "0.1.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "gcc 0.3.25 (registry+https://github.com/rust-lang/crates.io-index)",
+ "gcc 0.3.26 (registry+https://github.com/rust-lang/crates.io-index)",
  "libc 0.2.8 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
