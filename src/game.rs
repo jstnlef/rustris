@@ -26,6 +26,7 @@ pub trait GridRenderer {
 
 pub struct Rustris {
     board: Board,
+    randomizer: Randomizer,
     current_piece: Piece,
     next_piece: Piece,
     score: u64,
@@ -37,10 +38,14 @@ pub struct Rustris {
 }
 impl Rustris {
     pub fn new() -> Rustris {
+        let mut randomizer = Randomizer::new();
+        let current_piece = randomizer.create_piece();
+        let next_piece = randomizer.create_piece();
         Rustris {
             board: Board::new(),
-            current_piece: create_random_piece(),
-            next_piece: create_random_piece(),
+            randomizer: randomizer,
+            current_piece: current_piece,
+            next_piece: next_piece,
             score: 0,
             level: 1,
             lines: 0,
@@ -92,7 +97,7 @@ impl Rustris {
     fn get_new_piece(&mut self) {
         let next = self.next_piece;
         self.set_current_piece(next);
-        self.next_piece = create_random_piece();
+        self.next_piece = self.randomizer.create_piece();
     }
 
     fn update(&mut self) {
