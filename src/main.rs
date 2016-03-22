@@ -10,9 +10,10 @@ mod board;
 mod colors;
 mod game;
 use game::{Rustris, Game};
+mod randomizer;
+mod tetromino;
 mod settings;
 use settings::*;
-mod tetromino;
 
 // Constants for the various widgets and canvases
 // widget_ids! {

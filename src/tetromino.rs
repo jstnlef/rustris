@@ -1,48 +1,9 @@
-use std::collections::VecDeque;
 use piston_window::{Context, G2d};
 use piston_window::types::Color;
-use rand::{Rng, thread_rng};
 
 use colors::*;
 use game::{Renderer, render_square_in_grid};
 use settings::WIDTH_IN_BLOCKS;
-
-
-pub struct Randomizer {
-    history: VecDeque<&'static Tetromino>
-}
-impl Randomizer {
-    pub fn new() -> Randomizer {
-        let mut history = VecDeque::new();
-        history.push_back(&Z);
-        history.push_back(&S);
-        history.push_back(&Z);
-        history.push_back(&S);
-        Randomizer {
-            history: history
-        }
-    }
-    pub fn create_piece(&mut self) -> Piece {
-        let all_tetrominos = [&I, &J, &L, &O, &S, &T, &Z];
-        let mut random_ptype = None;
-        for _ in 0..6 {
-            random_ptype = thread_rng().choose(&all_tetrominos);
-            match random_ptype {
-                Some(ptype) => {
-                    if self.history.iter().all(|&item| item != *ptype) {
-                        break;
-                    }
-                },
-                _ => {}
-            }
-        }
-        let ptype = random_ptype.unwrap();
-        self.history.pop_front();
-        self.history.push_back(ptype);
-        debug_assert!(self.history.len() == 4);
-        Piece::create(ptype)
-    }
-}
 
 
 pub static I: Tetromino = Tetromino {
