@@ -14,6 +14,7 @@ mod randomizer;
 mod tetromino;
 mod settings;
 use settings::*;
+mod stats;
 
 // Constants for the various widgets and canvases
 // widget_ids! {

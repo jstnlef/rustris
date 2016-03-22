@@ -36,7 +36,7 @@ impl Board {
 
     // Removes completed rows from the board and returns the number
     // of rows completed.
-    pub fn remove_completed_rows(&mut self) -> i32 {
+    pub fn remove_completed_rows(&mut self) -> u32 {
         let completed_row_indexes = self.find_completed_row_indexes();
         for i in &completed_row_indexes {
             self.grid.remove(*i);
@@ -45,7 +45,7 @@ impl Board {
             self.grid.push_front(Self::create_empty_row());
         }
         debug_assert!(self.grid.len() == HEIGHT_IN_BLOCKS as usize);
-        completed_row_indexes.len() as i32
+        completed_row_indexes.len() as u32
     }
 
     // Finds and returns the indexes of completed rows in reverse order

@@ -5,6 +5,7 @@ use board::Board;
 use randomizer::Randomizer;
 use tetromino::*;
 use settings::*;
+use stats::*;
 
 enum GameState {
     Playing,
@@ -30,9 +31,7 @@ pub struct Rustris {
     randomizer: Randomizer,
     current_piece: Piece,
     next_piece: Piece,
-    score: u64,
-    level: u32,
-    lines: u64,
+    stats: GameStats,
     time_since_moved: f64,
     time_per_tick: f64
     // state: GameState
@@ -47,9 +46,7 @@ impl Rustris {
             randomizer: randomizer,
             current_piece: current_piece,
             next_piece: next_piece,
-            score: 0,
-            level: 1,
-            lines: 0,
+            stats: GameStats::new(),
             time_since_moved: 0.0,
             time_per_tick: 1.0  //For testing
         }
@@ -87,12 +84,9 @@ impl Rustris {
         self.board.set_piece(&self.current_piece);
     }
 
-    fn remove_completed_rows(&mut self) {
+    fn remove_completed_lines(&mut self) {
         let number_removed = self.board.remove_completed_rows();
-        if number_removed > 0 {
-            println!("Removed {} rows from the board.", number_removed);
-        }
-        // TODO: calculate and add to the score here.
+        self.stats.score_completed_lines(number_removed);
     }
 
     fn get_new_piece(&mut self) {
@@ -105,11 +99,12 @@ impl Rustris {
         let moved = self.current_piece.moved(Direction::Down);
         if self.should_lock(&moved) {
             self.lock_current_piece();
-            self.remove_completed_rows();
+            self.remove_completed_lines();
             self.get_new_piece();
         } else {
             self.set_current_piece(moved);
         }
+        println!("{}", self.stats);
     }
 }
 impl Game for Rustris {
@@ -125,6 +120,7 @@ impl Game for Rustris {
                         let moved = self.current_piece.moved(Direction::Down);
                         self.set_current_piece(moved);
                         self.time_since_moved = 0.0;
+                        self.stats.score_soft_drop();
                     }
                     Button::Keyboard(Key::Left) => {
                         let moved = self.current_piece.moved(Direction::Left);
@@ -135,7 +131,7 @@ impl Game for Rustris {
                         self.set_current_piece(moved);
                     }
                     Button::Keyboard(Key::Space) => {
-
+                        // TODO: Implement hard drop code
                     }
                     _ => {}
                 }
@@ -154,7 +150,7 @@ impl Game for Rustris {
         }
     }
 
-    fn on_render(&mut self, render_args: RenderArgs, e: PistonWindow) {
+    fn on_render(&mut self, _: RenderArgs, e: PistonWindow) {
         e.draw_2d(|c, g| {
             clear([0.0, 0.0, 0.0, 1.0], g);
             self.board.render(c, g);
