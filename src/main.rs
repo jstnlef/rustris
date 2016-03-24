@@ -3,30 +3,21 @@ extern crate find_folder;
 extern crate piston_window;
 extern crate rand;
 
-// use conrod::{Theme, Widget};
-use piston_window::*;
+use piston_window::{EventLoop, PistonWindow, WindowSettings, Event, UpdateEvent, clear};
 
 mod board;
 mod colors;
 mod game;
-use game::{Rustris, Game};
 mod randomizer;
 mod tetromino;
 mod settings;
-use settings::*;
 mod stats;
+mod ui;
 
-// Constants for the various widgets and canvases
-// widget_ids! {
-//     // Canvas IDs
-//     MASTER,
-//     MENU,
-//     PLAY_AREA,
-//     // Widget IDs
-//     FPS_COUNTER
-// }
+use game::{Rustris, Game};
+use settings::*;
+use ui::{create_ui, set_ui};
 
-type Ui = conrod::Ui<Glyphs>;
 
 fn main() {
     // Setup
@@ -41,34 +32,35 @@ fn main() {
         .unwrap();
 
     // UI Struct
-    // let mut ui = create_ui(&window);
+    let mut ui = create_ui(&window);
 
     let mut game = Rustris::new();
 
     // Game Loop
-    for e in window {
+    for e in window.ups(60) {
+        // let the UI handle the event
+        ui.handle_event(&e);
+
         match e.event {
             Some(Event::Input(input)) => {
                 game.on_input(input);
             }
             Some(Event::Update(update_args)) => {
                 game.on_update(update_args);
+                e.update(|_| ui.set_widgets(|ui| set_ui(ui, &game)));
             }
-            Some(Event::Render(render_args)) => {
-                game.on_render(render_args, e);
+            Some(Event::Render(_)) => {
+                e.draw_2d(|c, g| {
+                    clear([0.0, 0.0, 0.0, 1.0], g);
+                    ui.draw(c, g);
+                    // TODO: Make the game itself a custom widget.
+                    game.render(c, g);
+                });
             }
             _ => {}
         }
     }
 }
-
-// fn create_ui(window: &PistonWindow) -> Ui {
-//     let assets = find_folder::Search::KidsThenParents(3, 5).for_folder("assets").unwrap();
-//     let font_path = assets.join("fonts/NotoSans/NotoSans-Regular.ttf");
-//     let theme = Theme::default();
-//     let glyph_cache = Glyphs::new(&font_path, window.factory.borrow().clone());
-//     Ui::new(glyph_cache.unwrap(), theme)
-// }
 
 // fn set_ui(ui: &mut Ui, fps_count: usize) {
 //     use conrod::{Canvas, color, Colorable, Positionable, Scalar, Sizeable, Text};

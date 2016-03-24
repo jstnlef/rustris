@@ -15,7 +15,7 @@ enum GameState {
 pub trait Game {
     fn on_input(&mut self, input: Input);
     fn on_update(&mut self, update_args: UpdateArgs);
-    fn on_render(&mut self, render_args: RenderArgs, e: PistonWindow);
+    fn render(&mut self, context: Context, graphics: &mut G2d);
 }
 
 pub trait Renderer {
@@ -31,7 +31,7 @@ pub struct Rustris {
     randomizer: Randomizer,
     current_piece: Piece,
     next_piece: Piece,
-    stats: GameStats,
+    pub stats: GameStats,
     time_since_moved: f64,
     time_per_tick: f64
     // state: GameState
@@ -104,7 +104,6 @@ impl Rustris {
         } else {
             self.set_current_piece(moved);
         }
-        println!("{}", self.stats);
     }
 }
 impl Game for Rustris {
@@ -150,12 +149,9 @@ impl Game for Rustris {
         }
     }
 
-    fn on_render(&mut self, _: RenderArgs, e: PistonWindow) {
-        e.draw_2d(|c, g| {
-            clear([0.0, 0.0, 0.0, 1.0], g);
-            self.board.render(c, g);
-            self.current_piece.render(c, g);
-        });
+    fn render(&mut self, context: Context, graphics: &mut G2d) {
+        self.board.render(context, graphics);
+        self.current_piece.render(context, graphics);
     }
 }
 
