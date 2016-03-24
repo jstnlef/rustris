@@ -24,9 +24,9 @@ pub fn create_ui(window: &PistonWindow) -> UI {
 
 pub fn set_ui(ref mut ui: UICell, game: &Rustris) {
     Canvas::new().flow_right(&[
-        (LEFT_COLUMN, Canvas::new().color(color::LIGHT_ORANGE).pad(20.0)),
+        (LEFT_COLUMN, Canvas::new().color(color::DARK_CHARCOAL).pad(20.0)),
         (MIDDLE_COLUMN, Canvas::new().length(300.0)),
-        (RIGHT_COLUMN, Canvas::new().color(color::LIGHT_ORANGE).pad(20.0)),
+        (RIGHT_COLUMN, Canvas::new().color(color::DARK_CHARCOAL).pad(20.0)),
     ]).set(MASTER, ui);
 
     // Scoreboard
