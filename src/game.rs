@@ -90,6 +90,15 @@ impl Rustris {
         self.stats.score_completed_lines(number_removed);
     }
 
+    fn calculate_ghost_piece(&self) -> Piece {
+        let mut ghost = self.current_piece;
+        ghost.y = HEIGHT_IN_BLOCKS - 1;
+        while !self.is_valid_board_position(&ghost) {
+            ghost.y -= 1;
+        }
+        ghost
+    }
+
     fn get_new_piece(&mut self) {
         let next = self.next_piece;
         self.set_current_piece(next);
@@ -131,7 +140,13 @@ impl Game for Rustris {
                         moved = Some(self.current_piece.moved(Direction::Right));
                     }
                     Button::Keyboard(Key::Space) => {
-                        // TODO: Implement hard drop code
+                        let ghost = self.calculate_ghost_piece();
+                        let rows_dropped = (ghost.y - self.current_piece.y) as u32;
+                        self.stats.score_hard_drop(rows_dropped);
+                        self.set_current_piece(ghost);
+                        self.lock_current_piece();
+                        self.remove_completed_lines();
+                        self.get_new_piece();
                     }
                     _ => {}
                 }
@@ -158,6 +173,7 @@ impl Game for Rustris {
     fn render(&mut self, context: Context, graphics: &mut G2d) {
         self.board.render(context, graphics);
         self.current_piece.render(context, graphics);
+        self.calculate_ghost_piece().render(context, graphics);
     }
 }
 
