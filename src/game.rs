@@ -1,5 +1,4 @@
 use piston_window::*;
-use piston_window::types::Color;
 
 use board::Board;
 use randomizer::Randomizer;
@@ -16,14 +15,6 @@ pub trait Game {
     fn on_input(&mut self, input: Input);
     fn on_update(&mut self, update_args: UpdateArgs);
     fn render(&mut self, context: Context, graphics: &mut G2d);
-}
-
-pub trait Renderer {
-    fn render(&self, context: Context, graphics: &mut G2d);
-}
-
-pub trait GridRenderer {
-    fn render(&self, x: i32, y: i32, context: Context, graphics: &mut G2d);
 }
 
 pub struct Rustris {
@@ -172,13 +163,13 @@ impl Game for Rustris {
 
     fn render(&mut self, context: Context, graphics: &mut G2d) {
         self.board.render(context, graphics);
-        self.current_piece.render(context, graphics);
-        self.calculate_ghost_piece().render(context, graphics);
+        self.calculate_ghost_piece().render_ghost(context, graphics);
+        self.current_piece.render_normal(context, graphics);
     }
 }
 
 // TODO: Move this into its own module
-pub fn render_square_in_grid(x: i32, y: i32, color: Color, context: Context, graphics: &mut G2d) {
+pub fn render_square_in_grid(x: i32, y: i32, rect: Rectangle, context: Context, graphics: &mut G2d) {
     let square = rectangle::square(
         0.0, 0.0, BLOCK_SIZE - (2.0 * GRID_LINE_WIDTH)
     );
@@ -189,5 +180,5 @@ pub fn render_square_in_grid(x: i32, y: i32, color: Color, context: Context, gra
         .trans(GRID_LINE_WIDTH, GRID_LINE_WIDTH)
         // Translate the square into the proper grid cell based on the grid x and y position
         .trans((x as f64)*BLOCK_SIZE, (y as f64)*BLOCK_SIZE);
-    rectangle(color, square, transform, graphics);
+    rect.draw(square, &Default::default(), transform, graphics);
 }

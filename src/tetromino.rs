@@ -1,9 +1,9 @@
-use piston_window::{Context, G2d};
+use piston_window::{color, Context, G2d, Rectangle, rectangle};
 use piston_window::types::Color;
 
 use colors::*;
-use game::{Renderer, render_square_in_grid};
-use settings::WIDTH_IN_BLOCKS;
+use game::render_square_in_grid;
+use settings::{GHOST_BORDER_RADIUS, WIDTH_IN_BLOCKS};
 
 
 pub static I: Tetromino = Tetromino {
@@ -139,11 +139,31 @@ impl Piece {
     pub fn get_color(&self) -> Color {
         self.ptype.color
     }
-}
-impl Renderer for Piece {
-    fn render(&self, context: Context, graphics: &mut G2d) {
+
+    pub fn render_normal(&self, context: Context, graphics: &mut G2d) {
+        let rect = Rectangle {
+            color: self.get_color(),
+            shape: rectangle::Shape::Square,
+            border: None
+        };
+        self.render(rect, context, graphics);
+    }
+
+    pub fn render_ghost(&self, context: Context, graphics: &mut G2d) {
+        let rect = Rectangle {
+            color: color::BLACK,
+            shape: rectangle::Shape::Square,
+            border: Some(rectangle::Border {
+                color: self.get_color(),
+                radius: GHOST_BORDER_RADIUS
+            })
+        };
+        self.render(rect, context, graphics);
+    }
+
+    fn render(&self, rect: Rectangle, context: Context, graphics: &mut G2d) {
         for block in self.blocks_iter() {
-            render_square_in_grid(block.x, block.y, self.get_color(), context, graphics);
+            render_square_in_grid(block.x, block.y, rect, context, graphics);
         }
     }
 }

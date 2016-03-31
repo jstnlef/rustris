@@ -1,11 +1,12 @@
 
 use std::collections::VecDeque;
 
-use piston_window::{Context, G2d, Line, Transformed, types};
+use piston_window::{Context, G2d, Line, Transformed, types, Rectangle};
+use piston_window::rectangle;
 use piston_window::grid::Grid;
 
 use colors::GREY;
-use game::{Renderer, GridRenderer, render_square_in_grid};
+use game::render_square_in_grid;
 use tetromino::{Piece, Block};
 use settings::*;
 
@@ -88,9 +89,8 @@ impl Board {
     fn row_is_complete(row: &GridRow) -> bool {
         row.iter().all(|&block| block != CellState::Empty)
     }
-}
-impl Renderer for Board {
-    fn render(&self, context: Context, graphics: &mut G2d) {
+
+    pub fn render(&self, context: Context, graphics: &mut G2d) {
         let grid = Grid {
             cols: WIDTH_IN_BLOCKS as u32,
             rows: HEIGHT_IN_BLOCKS as u32,
@@ -112,11 +112,16 @@ pub enum CellState {
     Empty,
     Block(types::Color)
 }
-impl GridRenderer for CellState {
+impl CellState {
     fn render(&self, x: i32, y: i32, context: Context, graphics: &mut G2d) {
         match *self {
             CellState::Block(color) => {
-                render_square_in_grid(x, y, color, context, graphics);
+                let rect = Rectangle {
+                    color: color,
+                    shape: rectangle::Shape::Square,
+                    border: None
+                };
+                render_square_in_grid(x, y, rect, context, graphics);
             },
             CellState::Empty => {}
         }
