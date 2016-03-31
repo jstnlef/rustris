@@ -6,6 +6,7 @@ use conrod::{
 use piston_window::{G2d, Glyphs, Graphics, PistonWindow};
 
 use game::Rustris;
+use stats::GameStats;
 
 
 pub type Backend = (<G2d<'static> as Graphics>::Texture, Glyphs);
@@ -29,7 +30,10 @@ pub fn set_ui(ref mut ui: UICell, game: &Rustris) {
         (RIGHT_COLUMN, Canvas::new().color(color::DARK_CHARCOAL).pad(20.0)),
     ]).set(MASTER, ui);
 
-    // Scoreboard
+    draw_scoreboard(ui, &game.stats);
+}
+
+fn draw_scoreboard(ui: &mut UICell, stats: &GameStats) {
     Canvas::new().flow_down(&[
         (SCORE_CANVAS, Canvas::new().label("Score").label_color(color::WHITE)),
         (LEVEL_CANVAS, Canvas::new().label("Level").label_color(color::WHITE)),
@@ -38,7 +42,6 @@ pub fn set_ui(ref mut ui: UICell, game: &Rustris) {
       .mid_bottom_of(LEFT_COLUMN)
       .set(SCOREBOARD, ui);
 
-    let stats = &game.stats;
     Text::new(&stats.get_score().to_string())
         .color(color::WHITE)
         .middle_of(SCORE_CANVAS)
