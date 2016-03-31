@@ -61,10 +61,7 @@ impl Rustris {
     }
 
     pub fn set_current_piece(&mut self, piece: Piece) {
-        // TODO: Add tests for this
-        if self.is_valid_board_position(&piece) {
-            self.current_piece = piece;
-        }
+        self.current_piece = piece;
     }
 
     fn is_valid_board_position(&self, piece: &Piece) -> bool {
@@ -112,26 +109,26 @@ impl Rustris {
 }
 impl Game for Rustris {
     fn on_input(&mut self, input: Input) {
+        let mut moved: Option<Piece> = None;
         match input {
             Input::Press(key) => {
                 match key {
                     Button::Keyboard(Key::Up) => {
-                        let rotated = self.current_piece.rotated();
-                        self.set_current_piece(rotated);
+                        moved = Some(self.current_piece.rotated());
                     }
                     Button::Keyboard(Key::Down) => {
-                        let moved = self.current_piece.moved(Direction::Down);
-                        self.set_current_piece(moved);
-                        self.time_since_moved = 0.0;
-                        self.stats.score_soft_drop();
+                        let move_down = self.current_piece.moved(Direction::Down);
+                        if self.is_valid_board_position(&move_down) {
+                            self.time_since_moved = 0.0;
+                            self.stats.score_soft_drop();
+                            self.set_current_piece(move_down);
+                        }
                     }
                     Button::Keyboard(Key::Left) => {
-                        let moved = self.current_piece.moved(Direction::Left);
-                        self.set_current_piece(moved);
+                        moved = Some(self.current_piece.moved(Direction::Left));
                     }
                     Button::Keyboard(Key::Right) => {
-                        let moved = self.current_piece.moved(Direction::Right);
-                        self.set_current_piece(moved);
+                        moved = Some(self.current_piece.moved(Direction::Right));
                     }
                     Button::Keyboard(Key::Space) => {
                         // TODO: Implement hard drop code
@@ -140,6 +137,11 @@ impl Game for Rustris {
                 }
             }
             _ => {}
+        }
+        if let Some(piece) = moved {
+            if self.is_valid_board_position(&piece) {
+                self.set_current_piece(piece);
+            }
         }
     }
 
