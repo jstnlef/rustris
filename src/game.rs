@@ -77,10 +77,10 @@ impl Rustris {
 
     fn calculate_ghost_piece(&self) -> Piece {
         let mut ghost = self.current_piece;
-        ghost.y = HEIGHT_IN_BLOCKS - 1;
-        while !self.is_valid_board_position(&ghost) {
-            ghost.y -= 1;
+        while self.is_valid_board_position(&ghost) {
+            ghost.y += 1;
         }
+        ghost.y -= 1;
         ghost
     }
 
