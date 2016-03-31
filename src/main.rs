@@ -61,24 +61,3 @@ fn main() {
         }
     }
 }
-
-// fn set_ui(ui: &mut Ui, fps_count: usize) {
-//     use conrod::{Canvas, color, Colorable, Positionable, Scalar, Sizeable, Text};
-
-//     Canvas::new().flow_right(&[
-//         (MENU, Canvas::new().color(color::BLUE).pad(50.0)),
-//         (PLAY_AREA, Canvas::new().color(color::BLACK).pad(50.0))
-//     ]).set(MASTER, ui);
-
-//     const PAD: Scalar = 10.0;
-
-//     let fps_text: &str = &("FPS: ".to_string() + &fps_count.to_string());
-//     Text::new(fps_text)
-//         .color(color::BLACK)
-//         .font_size(14)
-//         .padded_w_of(MASTER, PAD)
-//         .mid_top_with_margin_on(MASTER, PAD)
-//         .align_text_left()
-//         .line_spacing(5.0)
-//         .set(FPS_COUNTER, ui);
-// }
