@@ -64,16 +64,10 @@ impl Rustris {
         })
     }
 
-    fn should_lock(&self, piece: &Piece) -> bool {
-        // TODO: Add tests for this
-        piece.blocks_iter().any(|block| {
-            block.y >= HEIGHT_IN_BLOCKS ||
-            self.board.is_space_occupied(block)
-        })
-    }
-
     fn lock_current_piece(&mut self) {
         self.board.set_piece(&self.current_piece);
+        self.remove_completed_lines();
+        self.get_new_piece();
     }
 
     fn remove_completed_lines(&mut self) {
@@ -98,10 +92,8 @@ impl Rustris {
 
     fn update(&mut self) {
         let moved = self.current_piece.moved(Direction::Down);
-        if self.should_lock(&moved) {
+        if !self.is_valid_board_position(&moved) {
             self.lock_current_piece();
-            self.remove_completed_lines();
-            self.get_new_piece();
         } else {
             self.set_current_piece(moved);
         }
@@ -136,8 +128,6 @@ impl Game for Rustris {
                         self.stats.score_hard_drop(rows_dropped);
                         self.set_current_piece(ghost);
                         self.lock_current_piece();
-                        self.remove_completed_lines();
-                        self.get_new_piece();
                     }
                     _ => {}
                 }
