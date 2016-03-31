@@ -31,7 +31,7 @@ pub struct Rustris {
     randomizer: Randomizer,
     current_piece: Piece,
     next_piece: Piece,
-    pub stats: GameStats,
+    stats: GameStats,
     time_since_moved: f64,
     time_per_tick: f64
     // state: GameState
@@ -54,6 +54,10 @@ impl Rustris {
 
     pub fn reset(&mut self) {
 
+    }
+
+    pub fn get_game_stats(&self) -> &GameStats {
+        &self.stats
     }
 
     pub fn set_current_piece(&mut self, piece: Piece) {

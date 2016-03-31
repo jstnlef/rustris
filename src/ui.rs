@@ -30,7 +30,7 @@ pub fn set_ui(ref mut ui: UICell, game: &Rustris) {
         (RIGHT_COLUMN, Canvas::new().color(color::DARK_CHARCOAL).pad(20.0)),
     ]).set(MASTER, ui);
 
-    draw_scoreboard(ui, &game.stats);
+    draw_scoreboard(ui, game.get_game_stats());
 }
 
 fn draw_scoreboard(ui: &mut UICell, stats: &GameStats) {
