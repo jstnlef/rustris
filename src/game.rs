@@ -23,8 +23,7 @@ pub struct Rustris {
     current_piece: Piece,
     next_piece: Piece,
     stats: GameStats,
-    time_since_moved: f64,
-    time_per_tick: f64
+    time_since_moved: f64
     // state: GameState
 }
 impl Rustris {
@@ -38,8 +37,7 @@ impl Rustris {
             current_piece: current_piece,
             next_piece: next_piece,
             stats: GameStats::new(),
-            time_since_moved: 0.0,
-            time_per_tick: 1.0  //For testing
+            time_since_moved: 0.0
         }
     }
 
@@ -53,6 +51,10 @@ impl Rustris {
 
     pub fn set_current_piece(&mut self, piece: Piece) {
         self.current_piece = piece;
+    }
+
+    fn iteration_delay(&self) -> f64 {
+        (11 - self.stats.get_level()) as f64 * 0.10
     }
 
     fn is_valid_board_position(&self, piece: &Piece) -> bool {
@@ -143,10 +145,9 @@ impl Game for Rustris {
 
     fn on_update(&mut self, update_args: UpdateArgs) {
         self.time_since_moved += update_args.dt;
-        // TODO: The threshold needs to be able to be updated
-        // as the game progresses
-        if self.time_since_moved >= self.time_per_tick {
-            self.time_since_moved -= self.time_per_tick;
+        let delay = self.iteration_delay();
+        if self.time_since_moved >= delay {
+            self.time_since_moved -= delay;
             self.update();
         }
     }
