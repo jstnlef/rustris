@@ -10,3 +10,4 @@ pub const GRID_X_OFFSET: f64 = (
 );
 pub const GRID_Y_OFFSET: f64 = 25.0;
 pub const GHOST_BORDER_RADIUS: f64 = 0.3;
+pub const MAX_GAME_LEVEL: u32 = 10;

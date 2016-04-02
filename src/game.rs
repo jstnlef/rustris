@@ -54,7 +54,7 @@ impl Rustris {
     }
 
     fn iteration_delay(&self) -> f64 {
-        (11 - self.stats.get_level()) as f64 * 0.10
+        ((MAX_GAME_LEVEL + 1) - self.stats.get_level()) as f64 * 0.10
     }
 
     fn is_valid_board_position(&self, piece: &Piece) -> bool {

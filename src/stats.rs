@@ -1,4 +1,7 @@
+use std::cmp::min;
 use std::fmt::{Display, Formatter, Result};
+
+use settings::MAX_GAME_LEVEL;
 
 const LEVEL_THRESHOLD: u32 = 10;
 
@@ -43,7 +46,8 @@ impl GameStats {
     }
 
     pub fn get_level(&self) -> u32 {
-        (self.lines / LEVEL_THRESHOLD) + 1
+        let level = (self.lines / LEVEL_THRESHOLD) + 1;
+        min(level, MAX_GAME_LEVEL)
     }
 }
 impl Display for GameStats {
@@ -58,6 +62,7 @@ impl Display for GameStats {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use settings::MAX_GAME_LEVEL;
 
     #[test]
     fn test_score_completed_lines() {
@@ -99,6 +104,16 @@ mod tests {
         let mut stats = GameStats::new();
         stats.score_hard_drop(10);
         assert_eq!(stats.get_score(), 20);
+    }
+
+    #[test]
+    fn test_get_level() {
+        let mut stats = GameStats::new();
+        assert_eq!(stats.get_level(), 1);
+        stats.lines = 89;
+        assert_eq!(stats.get_level(), 9);
+        stats.lines = 150;
+        assert_eq!(stats.get_level(), MAX_GAME_LEVEL);
     }
 }
 
