@@ -41,10 +41,6 @@ impl Rustris {
         }
     }
 
-    pub fn reset(&mut self) {
-
-    }
-
     pub fn get_game_stats(&self) -> &GameStats {
         &self.stats
     }
