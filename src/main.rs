@@ -35,7 +35,7 @@ fn main() {
     for e in window.ups(60) {
         // let the UI handle the event
         ui.handle_event(&e);
-        e.update(|_| ui.set_widgets(|ui| set_ui(ui, &game)));
+        e.update(|_| ui.set_widgets(|ui| set_ui(ui, &mut game)));
 
         match e.event {
             Some(Event::Input(input)) => {
@@ -49,7 +49,9 @@ fn main() {
                     clear([0.0, 0.0, 0.0, 1.0], g);
                     ui.draw(c, g);
                     // TODO: Make the game itself a custom widget.
-                    game.render(c, g);
+                    if !game.is_paused() {
+                        game.render(c, g);
+                    }
                 });
             }
             _ => {}

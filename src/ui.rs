@@ -1,12 +1,13 @@
 use find_folder;
 use conrod::{
-    Canvas, Colorable, Positionable, Labelable, Sizeable, Theme, Ui, UiCell,
-    Text, Widget, color
+    Button, Canvas, Colorable, Frameable, Positionable, Labelable, Sizeable, Theme,
+    Ui, UiCell, Text, Widget, color
 };
 use piston_window::{G2d, Glyphs, Graphics, PistonWindow};
 
-use game::Rustris;
+use game::{Rustris, GameState};
 use stats::GameStats;
+use settings::*;
 
 
 pub type Backend = (<G2d<'static> as Graphics>::Texture, Glyphs);
@@ -23,22 +24,69 @@ pub fn create_ui(window: &PistonWindow) -> UI {
     UI::new(glyph_cache.unwrap(), theme)
 }
 
-pub fn set_ui(ref mut ui: UICell, game: &Rustris) {
+pub fn set_ui(ref mut ui: UICell, game: &mut Rustris) {
     Canvas::new().flow_right(&[
         (LEFT_COLUMN, Canvas::new().color(color::DARK_CHARCOAL).pad(20.0)),
-        (MIDDLE_COLUMN, Canvas::new().length(300.0)),
+        (MIDDLE_COLUMN, Canvas::new().color(color::TRANSPARENT).length(300.0)),
         (RIGHT_COLUMN, Canvas::new().color(color::DARK_CHARCOAL).pad(20.0)),
     ]).set(MASTER, ui);
+    set_scoreboard(ui, game.get_game_stats());
 
-    draw_scoreboard(ui, game.get_game_stats());
+    if game.is_paused() {
+        set_pause_menu(ui, game);
+    }
+
 }
 
-fn draw_scoreboard(ui: &mut UICell, stats: &GameStats) {
+fn set_pause_menu(ui: &mut UICell, game: &mut Rustris) {
+    Canvas::new()
+      .w_h(WINDOW_WIDTH as f64, WINDOW_HEIGHT as f64)
+      .floating(true)
+      .middle_of(MASTER)
+      .set(PAUSE_OVERLAY, ui);
+
+    Canvas::new().flow_down(&[
+        (RESUME_CANVAS, Canvas::new()),
+        (QUIT_CANVAS, Canvas::new())
+    ]).label("Paused")
+      .label_color(color::WHITE)
+      .w_h(200.0, 200.0)
+      .frame(1.0)
+      .frame_color(color::WHITE)
+      .pad(1.0)
+      .middle_of(PAUSE_OVERLAY)
+      .set(PAUSE_MENU, ui);
+
+    Button::new()
+        .label("Resume")
+        .label_color(color::WHITE)
+        .color(color::CHARCOAL)
+        .middle_of(RESUME_CANVAS)
+        .w_h(150.0, 30.0)
+        .react(|| {
+            game.set_game_state(GameState::Playing);
+        })
+        .set(RESUME_BUTTON, ui);
+
+    Button::new()
+        .label("Quit")
+        .label_color(color::WHITE)
+        .color(color::CHARCOAL)
+        .middle_of(QUIT_CANVAS)
+        .w_h(150.0, 30.0)
+        .react(|| {})
+        .set(QUIT_BUTTON, ui);
+}
+
+fn set_scoreboard(ui: &mut UICell, stats: &GameStats) {
     Canvas::new().flow_down(&[
         (SCORE_CANVAS, Canvas::new().label("Score").label_color(color::WHITE)),
         (LEVEL_CANVAS, Canvas::new().label("Level").label_color(color::WHITE)),
-        (LINES_CANVAS, Canvas::new().label("Lines").label_color(color::WHITE)),
+        (LINES_CANVAS, Canvas::new().label("Lines").label_color(color::WHITE))
     ]).w_h(150.0, 250.0)
+      .frame(1.0)
+      .frame_color(color::WHITE)
+      .pad(1.0)
       .mid_bottom_of(LEFT_COLUMN)
       .set(SCOREBOARD, ui);
 
@@ -70,5 +118,13 @@ widget_ids! {
     LINES_CANVAS,
     SCORE,
     LEVEL,
-    LINES
+    LINES,
+
+    //Pause Menu
+    PAUSE_OVERLAY,
+    PAUSE_MENU,
+    RESUME_CANVAS,
+    RESUME_BUTTON,
+    QUIT_CANVAS,
+    QUIT_BUTTON
 }

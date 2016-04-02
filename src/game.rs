@@ -6,8 +6,8 @@ use tetromino::*;
 use settings::*;
 use stats::*;
 
-#[derive(Debug)]
-enum GameState {
+#[derive(Debug, PartialEq)]
+pub enum GameState {
     NotStarted,
     Playing,
     Paused,
@@ -51,6 +51,14 @@ impl Rustris {
 
     pub fn set_current_piece(&mut self, piece: Piece) {
         self.current_piece = piece;
+    }
+
+    pub fn is_paused(&self) -> bool {
+        self.state == GameState::Paused
+    }
+
+    pub fn set_game_state(&mut self, state: GameState) {
+        self.state = state;
     }
 
     fn iteration_delay(&self) -> f64 {
