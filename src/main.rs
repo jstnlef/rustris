@@ -20,10 +20,8 @@ use ui::{create_ui, set_ui};
 
 
 fn main() {
-    // Setup
     let window_title = format!("Rustris {}", VERSION);
 
-    // Game Window
     let window: PistonWindow =
         WindowSettings::new(window_title, [WINDOW_WIDTH, WINDOW_HEIGHT])
         .exit_on_esc(true)
@@ -31,12 +29,9 @@ fn main() {
         .build()
         .unwrap();
 
-    // UI Struct
     let mut ui = create_ui(&window);
-
     let mut game = Rustris::new();
 
-    // Game Loop
     for e in window.ups(60) {
         // let the UI handle the event
         ui.handle_event(&e);
