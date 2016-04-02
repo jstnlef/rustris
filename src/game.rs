@@ -59,6 +59,10 @@ impl Rustris {
         &self.stats
     }
 
+    pub fn get_next_piece(&self) -> &Piece {
+        &self.next_piece
+    }
+
     pub fn set_current_piece(&mut self, piece: Piece) {
         self.current_piece = piece;
     }
