@@ -6,9 +6,12 @@ use tetromino::*;
 use settings::*;
 use stats::*;
 
+#[derive(Debug)]
 enum GameState {
+    NotStarted,
     Playing,
-    Paused
+    Paused,
+    GameOver
 }
 
 pub trait Game {
@@ -23,8 +26,8 @@ pub struct Rustris {
     current_piece: Piece,
     next_piece: Piece,
     stats: GameStats,
-    time_since_moved: f64
-    // state: GameState
+    time_since_moved: f64,
+    state: GameState
 }
 impl Rustris {
     pub fn new() -> Rustris {
@@ -37,7 +40,8 @@ impl Rustris {
             current_piece: current_piece,
             next_piece: next_piece,
             stats: GameStats::new(),
-            time_since_moved: 0.0
+            time_since_moved: 0.0,
+            state: GameState::Playing
         }
     }
 
@@ -84,8 +88,12 @@ impl Rustris {
 
     fn get_new_piece(&mut self) {
         let next = self.next_piece;
-        self.set_current_piece(next);
-        self.next_piece = self.randomizer.create_piece();
+        if self.is_valid_board_position(&next){
+            self.set_current_piece(next);
+            self.next_piece = self.randomizer.create_piece();
+        } else {
+            self.state = GameState::GameOver;
+        }
     }
 
     fn update(&mut self) {
@@ -96,9 +104,8 @@ impl Rustris {
             self.set_current_piece(moved);
         }
     }
-}
-impl Game for Rustris {
-    fn on_input(&mut self, input: Input) {
+
+    fn handle_playing_input(&mut self, input: Input) {
         let mut moved: Option<Piece> = None;
         match input {
             Input::Press(key) => {
@@ -127,6 +134,9 @@ impl Game for Rustris {
                         self.set_current_piece(ghost);
                         self.lock_current_piece();
                     }
+                    Button::Keyboard(Key::P) => {
+                        self.state = GameState::Paused
+                    }
                     _ => {}
                 }
             }
@@ -139,12 +149,40 @@ impl Game for Rustris {
         }
     }
 
+    fn handle_paused_input(&mut self, input: Input) {
+        match input {
+            Input::Press(key) => {
+                match key {
+                    Button::Keyboard(Key::P) => {
+                        self.state = GameState::Playing
+                    },
+                    _ => {}
+                }
+            },
+            _ => {}
+        }
+    }
+}
+impl Game for Rustris {
+    fn on_input(&mut self, input: Input) {
+        match self.state {
+            GameState::Playing => self.handle_playing_input(input),
+            GameState::Paused => self.handle_paused_input(input),
+            _ => {}
+        }
+    }
+
     fn on_update(&mut self, update_args: UpdateArgs) {
-        self.time_since_moved += update_args.dt;
-        let delay = self.iteration_delay();
-        if self.time_since_moved >= delay {
-            self.time_since_moved -= delay;
-            self.update();
+        match self.state {
+            GameState::Playing => {
+                self.time_since_moved += update_args.dt;
+                let delay = self.iteration_delay();
+                if self.time_since_moved >= delay {
+                    self.time_since_moved -= delay;
+                    self.update();
+                }
+            },
+            _ => {}
         }
     }
 

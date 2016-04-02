@@ -1,6 +1,6 @@
 use find_folder;
 use conrod::{
-    Canvas, Colorable, Frameable, Positionable, Labelable, Sizeable, Theme, Ui, UiCell,
+    Canvas, Colorable, Positionable, Labelable, Sizeable, Theme, Ui, UiCell,
     Text, Widget, color
 };
 use piston_window::{G2d, Glyphs, Graphics, PistonWindow};

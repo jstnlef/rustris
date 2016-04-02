@@ -35,6 +35,7 @@ fn main() {
     for e in window.ups(60) {
         // let the UI handle the event
         ui.handle_event(&e);
+        e.update(|_| ui.set_widgets(|ui| set_ui(ui, &game)));
 
         match e.event {
             Some(Event::Input(input)) => {
@@ -42,7 +43,6 @@ fn main() {
             }
             Some(Event::Update(update_args)) => {
                 game.on_update(update_args);
-                e.update(|_| ui.set_widgets(|ui| set_ui(ui, &game)));
             }
             Some(Event::Render(_)) => {
                 e.draw_2d(|c, g| {
