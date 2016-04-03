@@ -43,6 +43,7 @@ fn set_pause_menu(ui: &mut UICell, game: &mut Rustris) {
       .w_h(WINDOW_WIDTH as f64, WINDOW_HEIGHT as f64)
       .floating(true)
       .middle_of(MASTER)
+      .rgba(0.0, 0.0, 0.0, 0.3)
       .set(PAUSE_OVERLAY, ui);
 
     Canvas::new().flow_down(&[
