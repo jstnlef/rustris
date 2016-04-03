@@ -359,7 +359,7 @@ dependencies = [
 
 [[package]]
 name = "image"
-version = "0.7.1"
+version = "0.7.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "byteorder 0.4.2 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -559,7 +559,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "gfx 0.9.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "gfx_core 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
- "image 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "image 0.7.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "piston-texture 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
