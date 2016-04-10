@@ -4,7 +4,7 @@ use board::Board;
 use randomizer::Randomizer;
 use tetromino::*;
 use settings::*;
-use stats::*;
+use stats::GameStats;
 
 #[derive(Debug, PartialEq)]
 pub enum GameState {
