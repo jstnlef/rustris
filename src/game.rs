@@ -61,7 +61,7 @@ impl Rustris {
         self.state = state;
     }
 
-    fn iteration_delay(&self) -> f64 {
+    fn drop_delay(&self) -> f64 {
         ((MAX_GAME_LEVEL + 1) - self.stats.get_level()) as f64 * 0.10
     }
 
@@ -184,7 +184,7 @@ impl Game for Rustris {
         match self.state {
             GameState::Playing => {
                 self.time_since_moved += update_args.dt;
-                let delay = self.iteration_delay();
+                let delay = self.drop_delay();
                 if self.time_since_moved >= delay {
                     self.time_since_moved -= delay;
                     self.update();
