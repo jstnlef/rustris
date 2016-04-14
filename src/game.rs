@@ -2,6 +2,7 @@ use piston_window::*;
 
 use board::Board;
 use randomizer::Randomizer;
+use rendering::Position;
 use tetromino::*;
 use settings::*;
 use stats::GameStats;
@@ -218,22 +219,8 @@ impl Game for Rustris {
 
     fn render(&mut self, context: Context, graphics: &mut G2d) {
         self.board.render(context, graphics);
-        self.calculate_ghost_piece().render_ghost(context, graphics);
-        self.current_piece.render_normal(context, graphics);
+        self.calculate_ghost_piece().render_in_grid(RenderType::Ghost, context, graphics);
+        self.current_piece.render_in_grid(RenderType::Normal, context, graphics);
+        self.next_piece.render(Position::new(553.0, 80.0), RenderType::Normal, context, graphics);
     }
-}
-
-// TODO: Move this into its own module
-pub fn render_square_in_grid(x: i32, y: i32, rect: Rectangle, context: Context, graphics: &mut G2d) {
-    let square = rectangle::square(
-        0.0, 0.0, BLOCK_SIZE - (2.0 * GRID_LINE_WIDTH)
-    );
-    let transform = context.transform
-        // Translate the origin of the transform based on where the grid starts
-        .trans(GRID_X_OFFSET, GRID_Y_OFFSET)
-        // Translate the square into the first grid cell (off of the bounding box)
-        .trans(GRID_LINE_WIDTH, GRID_LINE_WIDTH)
-        // Translate the square into the proper grid cell based on the grid x and y position
-        .trans((x as f64)*BLOCK_SIZE, (y as f64)*BLOCK_SIZE);
-    rect.draw(square, &Default::default(), transform, graphics);
 }

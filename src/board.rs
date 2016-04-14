@@ -6,7 +6,7 @@ use piston_window::rectangle;
 use piston_window::grid::Grid;
 
 use colors::GREY;
-use game::render_square_in_grid;
+use rendering::render_block_in_grid;
 use tetromino::{Piece, Block};
 use settings::*;
 
@@ -121,7 +121,7 @@ impl CellState {
                     shape: rectangle::Shape::Square,
                     border: None
                 };
-                render_square_in_grid(x, y, rect, context, graphics);
+                Block::new(x, y).render_in_grid(rect, context, graphics);
             },
             CellState::Empty => {}
         }

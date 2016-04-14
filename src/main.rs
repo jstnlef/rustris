@@ -10,6 +10,7 @@ mod colors;
 mod game;
 mod randomizer;
 mod tetromino;
+mod rendering;
 mod settings;
 mod stats;
 mod ui;
