@@ -4,8 +4,8 @@ version = "0.4.0"
 authors = ["Justin LeFebvre <jstnlefebvre@gmail.com>"]
 
 [dependencies]
-conrod = "0.32.0"
+conrod = "0.33.0"
 find_folder = "0.3.0"
 piston = "0.20.0"
-piston_window = "0.38.0"
+piston_window = "0.42.0"
 rand = "0.3.14"
