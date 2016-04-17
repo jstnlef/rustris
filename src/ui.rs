@@ -8,7 +8,6 @@ use piston_window::{G2d, Glyphs, Graphics, PistonWindow};
 use game::{Rustris, GameState};
 use stats::GameStats;
 use settings::*;
-use tetromino::Piece;
 
 
 pub type Backend = (<G2d<'static> as Graphics>::Texture, Glyphs);
@@ -32,7 +31,7 @@ pub fn set_ui(ref mut ui: UICell, game: &mut Rustris) {
         (RIGHT_COLUMN, Canvas::new().color(color::DARK_CHARCOAL).pad(20.0)),
     ]).set(MASTER, ui);
     set_scoreboard(ui, game.get_game_stats());
-    set_next_piece(ui, game.get_next_piece());
+    set_next_piece(ui);
 
     if game.is_paused() {
         set_pause_menu(ui, game);
@@ -150,7 +149,7 @@ fn set_scoreboard(ui: &mut UICell, stats: &GameStats) {
         .set(LINES, ui);
 }
 
-fn set_next_piece(ui: &mut UICell, next_piece: &Piece) {
+fn set_next_piece(ui: &mut UICell) {
     Canvas::new()
         .label("Next Piece")
         .label_color(color::WHITE)
