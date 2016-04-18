@@ -3,7 +3,7 @@
 This is my attempt at building a Tetris clone in Rust using the Piston game engine. The goal was to
 try to emulate the rules of Standard Tetris as closely as possible. The scoring follows these
 [guidelines](http://tetris.wikia.com/wiki/Scoring#Recent_guideline_compatible_games), without the
-T-Spin rules. Also used [this](http://www.colinfahey.com/tetris/tetris.html) as a reference.
+T-Spin rules. I also used [this guide](http://www.colinfahey.com/tetris/tetris.html) as a reference.
 
 ![Rustris](/assets/images/rustris.png?raw=true)
 
