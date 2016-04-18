@@ -53,8 +53,16 @@ impl Rustris {
         self.current_piece = piece;
     }
 
+    pub fn is_playing(&self) -> bool {
+        self.state == GameState::Playing
+    }
+
     pub fn is_paused(&self) -> bool {
         self.state == GameState::Paused
+    }
+
+    pub fn is_game_over(&self) -> bool {
+        self.state == GameState::GameOver
     }
 
     pub fn set_game_state(&mut self, state: GameState) {

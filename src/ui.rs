@@ -34,6 +34,8 @@ pub fn set_ui(ref mut ui: UICell, game: &mut Rustris) {
 
     if game.is_paused() {
         set_pause_menu(ui, game);
+    } else if game.is_game_over() {
+        set_game_over_menu(ui, game);
     }
 
 }
@@ -79,6 +81,45 @@ fn set_pause_menu(ui: &mut UICell, game: &mut Rustris) {
         .set(QUIT_BUTTON, ui);
 }
 
+fn set_game_over_menu(ui: &mut UICell, game: &mut Rustris) {
+    Canvas::new()
+      .w_h(WINDOW_WIDTH as f64, WINDOW_HEIGHT as f64)
+      .floating(true)
+      .middle_of(MASTER)
+      .rgba(0.0, 0.0, 0.0, 0.3)
+      .set(GAME_OVER_OVERLAY, ui);
+
+    Canvas::new().flow_down(&[
+        (FINAL_SCORE_CANVAS, Canvas::new()),
+        (RESTART_CANVAS, Canvas::new())
+    ]).label("Game Over")
+      .label_color(color::WHITE)
+      .w_h(200.0, 200.0)
+      .frame(1.0)
+      .frame_color(color::WHITE)
+      .pad(1.0)
+      .middle_of(GAME_OVER_OVERLAY)
+      .set(GAME_OVER_MENU, ui);
+
+    let stats = game.get_game_stats();
+    Text::new(
+        &format!("Final Score: {}", &stats.get_score().to_string()))
+        .color(color::WHITE)
+        .middle_of(FINAL_SCORE_CANVAS)
+        .set(FINAL_SCORE_TEXT, ui);
+
+    Button::new()
+        .label("New Game?")
+        .label_color(color::WHITE)
+        .color(color::CHARCOAL)
+        .middle_of(RESTART_CANVAS)
+        .w_h(150.0, 30.0)
+        .react(|| {
+            // game.reset();
+        })
+        .set(NEW_GAME_BUTTON, ui);
+}
+
 fn set_scoreboard(ui: &mut UICell, stats: &GameStats) {
     Canvas::new().flow_down(&[
         (SCORE_CANVAS, Canvas::new().label("Score").label_color(color::WHITE)),
@@ -121,11 +162,19 @@ widget_ids! {
     LEVEL,
     LINES,
 
-    //Pause Menu
+    // Pause Menu
     PAUSE_OVERLAY,
     PAUSE_MENU,
     RESUME_CANVAS,
     RESUME_BUTTON,
     QUIT_CANVAS,
-    QUIT_BUTTON
+    QUIT_BUTTON,
+
+    // Game Over Menu
+    GAME_OVER_OVERLAY,
+    GAME_OVER_MENU,
+    NEW_GAME_BUTTON,
+    RESTART_CANVAS,
+    FINAL_SCORE_CANVAS,
+    FINAL_SCORE_TEXT
 }

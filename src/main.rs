@@ -48,8 +48,7 @@ fn main() {
                 e.draw_2d(|c, g| {
                     clear([0.0, 0.0, 0.0, 1.0], g);
                     ui.draw(c, g);
-                    // TODO: Make the game itself a custom widget.
-                    if !game.is_paused() {
+                    if game.is_playing() {
                         game.render(c, g);
                     }
                 });
