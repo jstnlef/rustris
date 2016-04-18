@@ -8,7 +8,6 @@ use stats::GameStats;
 
 #[derive(Debug, PartialEq)]
 pub enum GameState {
-    NotStarted,
     Playing,
     Paused,
     GameOver
@@ -43,6 +42,17 @@ impl Rustris {
             time_since_moved: 0.0,
             state: GameState::Playing
         }
+    }
+
+    pub fn reset(&mut self) {
+        self.board = Board::new();
+        let mut randomizer = Randomizer::new();
+        self.current_piece = randomizer.create_piece();
+        self.next_piece = randomizer.create_piece();
+        self.randomizer = randomizer;
+        self.stats = GameStats::new();
+        self.time_since_moved = 0.0;
+        self.set_game_state(GameState::Playing);
     }
 
     pub fn get_game_stats(&self) -> &GameStats {

@@ -101,12 +101,14 @@ fn set_game_over_menu(ui: &mut UICell, game: &mut Rustris) {
       .middle_of(GAME_OVER_OVERLAY)
       .set(GAME_OVER_MENU, ui);
 
-    let stats = game.get_game_stats();
-    Text::new(
-        &format!("Final Score: {}", &stats.get_score().to_string()))
-        .color(color::WHITE)
-        .middle_of(FINAL_SCORE_CANVAS)
-        .set(FINAL_SCORE_TEXT, ui);
+    {
+        let stats = game.get_game_stats();
+        Text::new(
+            &format!("Final Score: {}", stats.get_score().to_string()))
+            .color(color::WHITE)
+            .middle_of(FINAL_SCORE_CANVAS)
+            .set(FINAL_SCORE_TEXT, ui);
+    }
 
     Button::new()
         .label("New Game?")
@@ -115,7 +117,7 @@ fn set_game_over_menu(ui: &mut UICell, game: &mut Rustris) {
         .middle_of(RESTART_CANVAS)
         .w_h(150.0, 30.0)
         .react(|| {
-            // game.reset();
+            game.reset();
         })
         .set(NEW_GAME_BUTTON, ui);
 }
