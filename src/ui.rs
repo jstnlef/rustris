@@ -153,7 +153,7 @@ fn set_next_piece(ui: &mut UICell) {
     Canvas::new()
         .label("Next Piece")
         .label_color(color::WHITE)
-        .w_h(150.0, 150.0)
+        .w_h(NEXT_PIECE_WIDTH, NEXT_PIECE_HEIGHT)
         .frame(1.0)
         .frame_color(color::WHITE)
         .pad(1.0)
