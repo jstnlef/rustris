@@ -20,7 +20,7 @@ pub fn create_ui(window: &PistonWindow) -> UI {
         .for_folder("assets").unwrap();
     let font_path = assets.join("fonts/NotoSans/NotoSans-Regular.ttf");
     let theme = Theme::default();
-    let glyph_cache = Glyphs::new(&font_path, window.factory.borrow().clone());
+    let glyph_cache = Glyphs::new(&font_path, window.factory.clone());
     UI::new(glyph_cache.unwrap(), theme)
 }
 

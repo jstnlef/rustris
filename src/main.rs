@@ -22,7 +22,7 @@ use ui::{create_ui, set_ui};
 fn main() {
     let window_title = format!("Rustris {}", VERSION);
 
-    let window: PistonWindow =
+    let mut window: PistonWindow =
         WindowSettings::new(window_title, [WINDOW_WIDTH, WINDOW_HEIGHT])
         .exit_on_esc(true)
         .vsync(true)
@@ -32,20 +32,22 @@ fn main() {
     let mut ui = create_ui(&window);
     let mut game = Rustris::new();
 
-    for e in window.ups(60) {
-        // let the UI handle the event
-        ui.handle_event(&e);
-        e.update(|_| ui.set_widgets(|ui| set_ui(ui, &mut game)));
+    window.set_ups(60);
 
-        match e.event {
-            Some(Event::Input(input)) => {
+    while let Some(event) = window.next() {
+        // let the UI handle the event
+        ui.handle_event(&event);
+        event.update(|_| ui.set_widgets(|ui| set_ui(ui, &mut game)));
+
+        match event {
+            Event::Input(input) => {
                 game.on_input(input);
             }
-            Some(Event::Update(update_args)) => {
+            Event::Update(update_args) => {
                 game.on_update(update_args);
             }
-            Some(Event::Render(_)) => {
-                e.draw_2d(|c, g| {
+            Event::Render(_) => {
+                window.draw_2d(&event, |c, g| {
                     clear([0.0, 0.0, 0.0, 1.0], g);
                     ui.draw(c, g);
                     if game.is_playing() {
