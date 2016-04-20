@@ -2,7 +2,6 @@ use piston_window::*;
 
 use board::Board;
 use randomizer::Randomizer;
-use rendering::Position;
 use tetromino::*;
 use settings::*;
 use stats::GameStats;
@@ -217,6 +216,17 @@ impl Game for Rustris {
         self.board.render(context, graphics);
         self.calculate_ghost_piece().render_in_grid(RenderType::Ghost, context, graphics);
         self.current_piece.render_in_grid(RenderType::Normal, context, graphics);
-        self.next_piece.render(Position::new(553.0, 80.0), RenderType::Normal, context, graphics);
+        self.next_piece.render(ScreenPosition::new(553.0, 80.0), RenderType::Normal, context, graphics);
+    }
+}
+
+#[derive(Clone, Copy)]
+pub struct ScreenPosition {
+    pub x: f64,
+    pub y: f64
+}
+impl ScreenPosition {
+    pub fn new(x: f64, y: f64) -> ScreenPosition {
+        ScreenPosition {x: x, y: y}
     }
 }

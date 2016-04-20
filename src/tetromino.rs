@@ -2,7 +2,7 @@ use piston_window::{Context, G2d, Rectangle, Transformed, color, rectangle};
 use piston_window::types::Color;
 
 use colors::*;
-use rendering::Position;
+use game::ScreenPosition;
 use settings::*;
 
 
@@ -145,7 +145,8 @@ impl Piece {
         self.render(position, render_type, context, graphics);
     }
 
-    pub fn render(&self, position: Position, render_type: RenderType, context: Context, graphics: &mut G2d) {
+    pub fn render(&self, position: ScreenPosition, render_type: RenderType, context: Context,
+                  graphics: &mut G2d) {
         let rect = render_type.get_rectangle(self.get_color());
         for block in self.blocks_iter() {
             block.render(position, rect, context, graphics);
@@ -153,8 +154,8 @@ impl Piece {
     }
 }
 
-fn get_grid_position() -> Position {
-    Position::new(
+fn get_grid_position() -> ScreenPosition {
+    ScreenPosition::new(
         GRID_X_OFFSET + GRID_LINE_WIDTH,
         GRID_Y_OFFSET + GRID_LINE_WIDTH
     )
@@ -245,7 +246,8 @@ impl Block {
         self.render(get_grid_position(), rect, context, graphics);
     }
 
-    pub fn render(&self, position: Position, rect: Rectangle, context: Context, graphics: &mut G2d) {
+    pub fn render(&self, position: ScreenPosition, rect: Rectangle, context: Context,
+                  graphics: &mut G2d) {
         let square = rectangle::square(
             position.x, position.y, BLOCK_SIZE - (2.0 * GRID_LINE_WIDTH)
         );

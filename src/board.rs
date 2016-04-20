@@ -6,7 +6,6 @@ use piston_window::rectangle;
 use piston_window::grid::Grid;
 
 use colors::GREY;
-use rendering::render_block_in_grid;
 use tetromino::{Piece, Block};
 use settings::*;
 
