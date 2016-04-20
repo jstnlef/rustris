@@ -145,7 +145,13 @@ impl Piece {
         self.render(position, render_type, context, graphics);
     }
 
-    pub fn render(&self, position: ScreenPosition, render_type: RenderType, context: Context,
+    pub fn render_in_next_piece(&self, render_type: RenderType, context: Context,
+                                graphics: &mut G2d) {
+        let position = ScreenPosition::new(553.0, 80.0);
+        self.render(position, render_type, context, graphics);
+    }
+
+    fn render(&self, position: ScreenPosition, render_type: RenderType, context: Context,
                   graphics: &mut G2d) {
         let rect = render_type.get_rectangle(self.get_color());
         for block in self.blocks_iter() {

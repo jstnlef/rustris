@@ -216,7 +216,7 @@ impl Game for Rustris {
         self.board.render(context, graphics);
         self.calculate_ghost_piece().render_in_grid(RenderType::Ghost, context, graphics);
         self.current_piece.render_in_grid(RenderType::Normal, context, graphics);
-        self.next_piece.render(ScreenPosition::new(553.0, 80.0), RenderType::Normal, context, graphics);
+        self.next_piece.render_in_next_piece(RenderType::Normal, context, graphics);
     }
 }
 
