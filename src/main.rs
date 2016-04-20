@@ -3,7 +3,8 @@ extern crate find_folder;
 extern crate piston_window;
 extern crate rand;
 
-use piston_window::{EventLoop, PistonWindow, WindowSettings, Event, UpdateEvent, clear};
+use piston_window::{EventLoop, PistonWindow, WindowSettings, UpdateEvent, clear};
+use piston_window::Event::{Input, Update, Render};
 
 mod board;
 mod colors;
@@ -40,13 +41,13 @@ fn main() {
         event.update(|_| ui.set_widgets(|ui| set_ui(ui, &mut game)));
 
         match event {
-            Event::Input(input) => {
+            Input(input) => {
                 game.on_input(input);
             }
-            Event::Update(update_args) => {
+            Update(update_args) => {
                 game.on_update(update_args);
             }
-            Event::Render(_) => {
+            Render(_) => {
                 window.draw_2d(&event, |c, g| {
                     clear([0.0, 0.0, 0.0, 1.0], g);
                     ui.draw(c, g);
