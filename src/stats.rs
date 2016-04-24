@@ -1,5 +1,4 @@
 use std::cmp::min;
-use std::fmt::{Display, Formatter, Result};
 
 use settings::MAX_GAME_LEVEL;
 
@@ -48,14 +47,6 @@ impl GameStats {
     pub fn get_level(&self) -> u32 {
         let level = (self.lines / LEVEL_THRESHOLD) + 1;
         min(level, MAX_GAME_LEVEL)
-    }
-}
-impl Display for GameStats {
-    fn fmt(&self, f: &mut Formatter) -> Result {
-        write!(
-            f, "score: {}, level: {}, lines: {}",
-            self.get_score(), self.get_level(), self.get_lines()
-        )
     }
 }
 
