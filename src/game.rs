@@ -6,12 +6,6 @@ use tetromino::*;
 use settings::*;
 use stats::GameStats;
 
-#[derive(Debug, PartialEq)]
-pub enum GameState {
-    Playing,
-    Paused,
-    GameOver
-}
 
 pub struct Rustris {
     board: Board,
@@ -211,6 +205,13 @@ impl Rustris {
         self.current_piece.render_in_grid(RenderType::Normal, context, graphics);
         self.next_piece.render_in_next_piece(RenderType::Normal, context, graphics);
     }
+}
+
+#[derive(Debug, PartialEq)]
+pub enum GameState {
+    Playing,
+    Paused,
+    GameOver
 }
 
 #[derive(Clone, Copy)]
