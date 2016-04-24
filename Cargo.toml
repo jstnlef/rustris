@@ -7,5 +7,5 @@ authors = ["Justin LeFebvre <jstnlefebvre@gmail.com>"]
 conrod = "0.34.0"
 find_folder = "0.3.0"
 piston = "0.20.0"
-piston_window = "0.43.0"
+piston_window = "0.44.0"
 rand = "0.3.14"
