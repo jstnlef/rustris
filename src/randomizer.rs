@@ -53,7 +53,7 @@ mod tests {
     use tetromino::*;
 
     #[test]
-    fn test_add_to_history() {
+    fn test_add_to_history_ensure_history_length() {
         let mut rand = Randomizer::new();
         assert_eq!(rand.history.len(), 4);
         rand.add_to_history(&L);
