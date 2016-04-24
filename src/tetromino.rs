@@ -81,8 +81,6 @@ type Rotation = usize;
 
 #[derive(Clone, Copy)]
 pub struct Piece {
-    // TODO: Replace with position
-    // TODO: Make this private again
     pub x: i32,
     pub y: i32,
     ptype: &'static Tetromino,
