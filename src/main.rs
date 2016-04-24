@@ -15,7 +15,7 @@ mod settings;
 mod stats;
 mod ui;
 
-use game::{Rustris, Game};
+use game::Rustris;
 use settings::*;
 use ui::{create_ui, set_ui};
 

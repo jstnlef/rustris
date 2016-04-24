@@ -13,12 +13,6 @@ pub enum GameState {
     GameOver
 }
 
-pub trait Game {
-    fn on_input(&mut self, input: Input);
-    fn on_update(&mut self, update_args: UpdateArgs);
-    fn render(&mut self, context: Context, graphics: &mut G2d);
-}
-
 pub struct Rustris {
     board: Board,
     randomizer: Randomizer,
@@ -188,9 +182,8 @@ impl Rustris {
             _ => {}
         }
     }
-}
-impl Game for Rustris {
-    fn on_input(&mut self, input: Input) {
+
+    pub fn on_input(&mut self, input: Input) {
         match self.state {
             GameState::Playing => self.handle_playing_input(input),
             GameState::Paused => self.handle_paused_input(input),
@@ -198,7 +191,7 @@ impl Game for Rustris {
         }
     }
 
-    fn on_update(&mut self, update_args: UpdateArgs) {
+    pub fn on_update(&mut self, update_args: UpdateArgs) {
         match self.state {
             GameState::Playing => {
                 self.time_since_moved += update_args.dt;
@@ -212,7 +205,7 @@ impl Game for Rustris {
         }
     }
 
-    fn render(&mut self, context: Context, graphics: &mut G2d) {
+    pub fn render(&mut self, context: Context, graphics: &mut G2d) {
         self.board.render(context, graphics);
         self.calculate_ghost_piece().render_in_grid(RenderType::Ghost, context, graphics);
         self.current_piece.render_in_grid(RenderType::Normal, context, graphics);
