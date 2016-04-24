@@ -72,7 +72,6 @@ impl Rustris {
     }
 
     fn is_valid_board_position(&self, piece: &Piece) -> bool {
-        // TODO: Add tests for this
         piece.blocks_iter().all(|block| {
             (block.x >= 0 && block.x < WIDTH_IN_BLOCKS &&
              block.y >= 0 && block.y < HEIGHT_IN_BLOCKS &&
@@ -222,5 +221,33 @@ pub struct ScreenPosition {
 impl ScreenPosition {
     pub fn new(x: f64, y: f64) -> ScreenPosition {
         ScreenPosition {x: x, y: y}
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use tetromino::{Piece, I};
+    use settings::*;
+
+    #[test]
+    fn test_is_valid_board_position() {
+        let mut p = Piece::create(&I);
+        let game = Rustris::new();
+        assert_eq!(game.is_valid_board_position(&p), true);
+        p.x = WIDTH_IN_BLOCKS + 1;
+        assert_eq!(game.is_valid_board_position(&p), false);
+        p.x = -1;
+        assert_eq!(game.is_valid_board_position(&p), false);
+        p.y = HEIGHT_IN_BLOCKS + 1;
+        assert_eq!(game.is_valid_board_position(&p), false);
+        p.y = -1;
+        assert_eq!(game.is_valid_board_position(&p), false);
+    }
+
+    #[test]
+    fn test_drop_delay() {
+        let mut game = Rustris::new();
+        assert_eq!(game.drop_delay(), 1.0);
     }
 }
