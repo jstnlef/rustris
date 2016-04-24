@@ -50,8 +50,7 @@ fn set_pause_menu(ui: &mut UICell, game: &mut Rustris) {
       .set(PAUSE_OVERLAY, ui);
 
     Canvas::new().flow_down(&[
-        (RESUME_CANVAS, Canvas::new()),
-        (QUIT_CANVAS, Canvas::new())
+        (RESUME_CANVAS, Canvas::new())
     ]).label("Paused")
       .label_color(color::WHITE)
       .w_h(200.0, 200.0)
@@ -71,15 +70,6 @@ fn set_pause_menu(ui: &mut UICell, game: &mut Rustris) {
             game.set_game_state(GameState::Playing);
         })
         .set(RESUME_BUTTON, ui);
-
-    Button::new()
-        .label("Quit")
-        .label_color(color::WHITE)
-        .color(color::CHARCOAL)
-        .middle_of(QUIT_CANVAS)
-        .w_h(150.0, 30.0)
-        .react(|| {})
-        .set(QUIT_BUTTON, ui);
 }
 
 fn set_game_over_menu(ui: &mut UICell, game: &mut Rustris) {
@@ -182,8 +172,6 @@ widget_ids! {
     PAUSE_MENU,
     RESUME_CANVAS,
     RESUME_BUTTON,
-    QUIT_CANVAS,
-    QUIT_BUTTON,
 
     // Game Over Menu
     GAME_OVER_OVERLAY,
