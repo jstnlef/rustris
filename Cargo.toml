@@ -1,11 +1,11 @@
 [package]
 name = "rustris"
-version = "1.0.0"
+version = "1.0.1"
 authors = ["Justin LeFebvre <jstnlefebvre@gmail.com>"]
 
 [dependencies]
-conrod = "0.34.0"
+conrod = "0.35.0"
 find_folder = "0.3.0"
-piston = "0.20.0"
-piston_window = "0.44.0"
+piston = "0.22.1"
+piston_window = "0.47.0"
 rand = "0.3.14"
